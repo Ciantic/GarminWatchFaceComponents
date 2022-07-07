@@ -53,30 +53,10 @@ class ComponentLayer extends Component {
         if (partial) {
             for (var i = 0; i < self._drawnAreas.size(); i++) {
                 var bb = self._drawnAreas[i];
-                // System.println(
-                //     "drawnAreas " +
-                //         bb.x +
-                //         " " +
-                //         bb.y +
-                //         " " +
-                //         bb.width +
-                //         " " +
-                //         bb.height
-                // );
-                // dc.setClip(0, 0, 1, 1);
                 dc.setClip(bb.x, bb.y, bb.width, bb.height);
                 dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
                 dc.clear();
                 dc.drawBitmap(0, 0, bitmap);
-                // dc.drawOffsetBitmap(
-                //     bb.x,
-                //     bb.y,
-                //     bb.x,
-                //     bb.y,
-                //     bb.width,
-                //     bb.height,
-                //     bitmap
-                // );
                 dc.clearClip();
             }
         } else {
