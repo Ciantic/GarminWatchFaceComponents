@@ -62,7 +62,6 @@ class Watch extends WatchUi.WatchFace {
     public function onExitSleep() as Void {}
 
     public function onEnterSleep() as Void {
-        System.println("Request update");
         WatchUi.requestUpdate();
     }
 

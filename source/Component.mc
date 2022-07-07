@@ -36,7 +36,6 @@ class Component {
             h != null ? h : 0
         );
         self.bitmap = null;
-        System.println("Initialize Component?");
     }
 
     public function getBoundingBox() as MyBoundingBox {
@@ -62,7 +61,6 @@ class Component {
     public function setPos(x as Lang.Number, y as Lang.Number) as Void {
         self.boundingBox.x = x;
         self.boundingBox.y = y;
-        System.println("Set pos " + x + " " + y);
     }
 
     public function setPosCenterRightJustify(
