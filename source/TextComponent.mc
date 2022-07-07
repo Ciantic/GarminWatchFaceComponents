@@ -8,6 +8,8 @@ typedef TextSettings as {
         :text as Lang.String,
         :font as Graphics.FontType,
         :justify as Lang.Number?,
+        :width as Lang.Number?,
+        :height as Lang.Number?,
     };
 
 class TextComponent extends Component {
@@ -33,33 +35,55 @@ class TextComponent extends Component {
         if (text == null) {
             text = "";
         }
+
+        // If height or width is not given, try to guestimate from font size
+        var fontHeight = Graphics.getFontHeight(font);
+        var width = params.get(:width) as Lang.Number?;
+        if (width == null) {
+            width = fontHeight * text.length();
+        }
+
+        var height = params.get(:height) as Lang.Number?;
+        if (height == null) {
+            height = fontHeight;
+        }
+
         self._justify = justify;
         self._text = text;
         self._font = font;
-        var height = Graphics.getFontHeight(font);
-        System.println("Make " + height * text.length());
         Component.initialize({
-            :width => height * text.length(),
+            :width => width,
             :height => height,
         });
     }
 
     public function setText(newText as Lang.String) as Void {
-        if (self._text != newText) {
+        if (!self._text.equals(newText)) {
             self._invalid = true;
             self._text = newText;
         }
     }
 
-    public function doUpdate(time as Lang.Number) as Boolean {
-        return _invalid;
+    public function update(time as Lang.Number) as Void {}
+
+    protected function shouldRedraw() as Boolean {
+        return self._invalid;
     }
 
     protected function draw(bdc as Dc) as Void {
-        System.println("Draw hour " + self._text);
         bdc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
         bdc.clear();
-        bdc.drawText(0, 0, self._font, self._text, self._justify);
-        _invalid = false;
+        var x = 0;
+        var y = 0;
+        if (self._justify == Graphics.TEXT_JUSTIFY_RIGHT) {
+            x = self.getWidth();
+        } else if (self._justify == Graphics.TEXT_JUSTIFY_CENTER) {
+            x = self.getWidth() / 2;
+        } else if (self._justify == Graphics.TEXT_JUSTIFY_VCENTER) {
+            x = self.getWidth() / 2;
+            y = self.getHeight() / 2;
+        }
+        bdc.drawText(x, y, self._font, self._text, self._justify);
+        self._invalid = false;
     }
 }

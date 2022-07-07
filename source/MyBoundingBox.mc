@@ -19,6 +19,14 @@ class MyBoundingBox {
         self.height = height;
     }
 
+    public function toString() {
+        return "x:" + x + " y:" + y + " " + width + "*" + height;
+    }
+
+    public static function fromDc(dc as Dc) as MyBoundingBox {
+        return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
+    }
+
     // static public function intersects()
 
     // public function intersect(other as MyBoundingBox) as MyBoundingBox? {

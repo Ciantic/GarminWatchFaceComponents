@@ -14,6 +14,7 @@ class Watch extends WatchUi.WatchFace {
     }
 
     public function onLayout(dc as Dc) as Void {
+        var dcArea = MyBoundingBox.fromDc(dc);
         var componentLayer = new ComponentLayer({
             :width => dc.getWidth(),
             :height => dc.getHeight(),
@@ -21,20 +22,18 @@ class Watch extends WatchUi.WatchFace {
 
         var hoursView = new HoursView({
             :font => Graphics.FONT_NUMBER_THAI_HOT,
+            :justify => Graphics.TEXT_JUSTIFY_RIGHT,
         });
         var minutesView = new MinutesView({
             :font => Graphics.FONT_NUMBER_THAI_HOT,
+            :justify => Graphics.TEXT_JUSTIFY_LEFT,
         });
         var secondsView = new SecondsView({
             :font => Graphics.FONT_MEDIUM,
+            :justify => Graphics.TEXT_JUSTIFY_CENTER,
         });
-        hoursView.setPosCenterRightJustify(0, 0, dc.getWidth(), dc.getHeight());
-        minutesView.setPosCenterLeftJustify(
-            0,
-            0,
-            dc.getWidth(),
-            dc.getHeight()
-        );
+        hoursView.setPosCenterRightJustify(dcArea);
+        minutesView.setPosCenterLeftJustify(dcArea);
         secondsView.setPosCenter(
             0,
             dc.getHeight() / 2,
@@ -42,6 +41,7 @@ class Watch extends WatchUi.WatchFace {
             dc.getHeight()
         );
 
+        // componentLayer.add(testCom);
         componentLayer.add(hoursView);
         componentLayer.add(minutesView);
         componentLayer.add(secondsView);
@@ -87,7 +87,8 @@ class Watch extends WatchUi.WatchFace {
         var now = System.getTimer();
         var componentLayer = self.componentLayer;
         if (componentLayer != null) {
-            componentLayer.renderToView(dc, now, partial);
+            componentLayer.update(now);
+            componentLayer.renderToView(dc, partial);
         }
     }
 }
