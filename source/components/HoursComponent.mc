@@ -4,7 +4,7 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
-class HoursView extends TextComponent {
+class HoursComponent extends TextComponent {
     (:debug)
     public var name as Lang.String = "HoursView";
 

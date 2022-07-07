@@ -5,8 +5,6 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class Watch extends WatchUi.WatchFace {
-    // private var minutesView as MinutesView;
-    // private var secondsView as SecondsView;
     private var componentLayer as ComponentLayer?;
 
     public function initialize() {
@@ -20,21 +18,21 @@ class Watch extends WatchUi.WatchFace {
             :height => dc.getHeight(),
         });
 
-        var hoursView = new HoursView({
+        var hoursCom = new HoursComponent({
             :font => Graphics.FONT_NUMBER_THAI_HOT,
             :justify => Graphics.TEXT_JUSTIFY_RIGHT,
         });
-        var minutesView = new MinutesView({
+        var minutesCom = new MinutesComponent({
             :font => Graphics.FONT_NUMBER_THAI_HOT,
             :justify => Graphics.TEXT_JUSTIFY_LEFT,
         });
-        var secondsView = new SecondsView({
+        var secondsCom = new SecondsComponent({
             :font => Graphics.FONT_MEDIUM,
             :justify => Graphics.TEXT_JUSTIFY_CENTER,
         });
-        hoursView.setPosCenterRightJustify(dcArea);
-        minutesView.setPosCenterLeftJustify(dcArea);
-        secondsView.setPosCenter(
+        hoursCom.setPosCenterRightJustify(dcArea);
+        minutesCom.setPosCenterLeftJustify(dcArea);
+        secondsCom.setPosCenter(
             0,
             dc.getHeight() / 2,
             dc.getWidth(),
@@ -42,9 +40,9 @@ class Watch extends WatchUi.WatchFace {
         );
 
         // componentLayer.add(testCom);
-        componentLayer.add(hoursView);
-        componentLayer.add(minutesView);
-        componentLayer.add(secondsView);
+        componentLayer.add(hoursCom);
+        componentLayer.add(minutesCom);
+        componentLayer.add(secondsCom);
         self.componentLayer = componentLayer;
     }
 
