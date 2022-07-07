@@ -4,16 +4,17 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
-class SecondsComponent extends TextComponent {
+class SecondsComponent extends NumericComponent {
     (:debug)
-    public var name as Lang.String = "MinutesView";
+    public var name as Lang.String = "SecondsComponent";
 
-    public function initialize(params as TextSettings) {
-        params[:text] = "  ";
-        TextComponent.initialize(params);
+    public function initialize(params as NumericSettings) {
+        params[:value] = 0;
+        params[:format] = "%02d";
+        NumericComponent.initialize(params);
     }
 
     public function update(time as Lang.Number) as Void {
-        self.setText(System.getClockTime().sec.format("%02d"));
+        self.setValue(System.getClockTime().sec);
     }
 }

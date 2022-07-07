@@ -109,7 +109,7 @@ class ComponentLayer extends Component {
                 bdc.drawBitmap(com.getOffsetX(), com.getOffsetY(), combitmap);
                 bdc.clearClip();
                 var bb = com.getBoundingBox();
-                // System.println("Drawn x " + bb.toString());
+                System.println("Drawn " + com.name + " " + bb.toString());
                 drawnAreas.add(bb);
             }
         }

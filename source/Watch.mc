@@ -19,16 +19,22 @@ class Watch extends WatchUi.WatchFace {
         });
 
         var hoursCom = new HoursComponent({
-            :font => Graphics.FONT_NUMBER_THAI_HOT,
-            :justify => Graphics.TEXT_JUSTIFY_RIGHT,
+            :textSettings => {
+                :font => Graphics.FONT_NUMBER_THAI_HOT,
+                :justify => Graphics.TEXT_JUSTIFY_RIGHT,
+            },
         });
         var minutesCom = new MinutesComponent({
-            :font => Graphics.FONT_NUMBER_THAI_HOT,
-            :justify => Graphics.TEXT_JUSTIFY_LEFT,
+            :textSettings => {
+                :font => Graphics.FONT_NUMBER_THAI_HOT,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+            },
         });
         var secondsCom = new SecondsComponent({
-            :font => Graphics.FONT_MEDIUM,
-            :justify => Graphics.TEXT_JUSTIFY_CENTER,
+            :textSettings => {
+                :font => Graphics.FONT_MEDIUM,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+            },
         });
         hoursCom.setPosCenterRightJustify(dcArea);
         minutesCom.setPosCenterLeftJustify(dcArea);

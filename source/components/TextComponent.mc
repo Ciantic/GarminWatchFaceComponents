@@ -7,9 +7,12 @@ import Toybox.Time;
 typedef TextSettings as {
         :text as Lang.String,
         :font as Graphics.FontType,
-        :justify as Lang.Number?,
+        :justify as Graphics.TextJustification?,
+        :strlen as Lang.Number?,
         :width as Lang.Number?,
         :height as Lang.Number?,
+        :foreground as Graphics.ColorType?,
+        :background as Graphics.ColorType?,
     };
 
 class TextComponent extends Component {
@@ -19,6 +22,8 @@ class TextComponent extends Component {
     private var _font as Graphics.FontType;
     private var _justify as Lang.Number;
     private var _invalid as Boolean = true;
+    private var _foreground as Graphics.ColorType = Graphics.COLOR_WHITE;
+    private var _background as Graphics.ColorType = Graphics.COLOR_TRANSPARENT;
 
     public function initialize(params as TextSettings) {
         var font = params.get(:font) as Graphics.FontType?;
@@ -36,11 +41,27 @@ class TextComponent extends Component {
             text = "";
         }
 
-        // If height or width is not given, try to guestimate from font size
+        var strlen = params.get(:strlen) as Lang.Number?;
+        if (strlen == null) {
+            strlen = text.length();
+        }
+
+        var fg = params.get(:foreground) as Lang.Number?;
+        if (fg != null) {
+            self._foreground = fg;
+        }
+
+        var bg = params.get(:background) as Lang.Number?;
+        if (bg != null) {
+            self._background = bg;
+        }
+
+        // If height or width is not given, try to guestimate from font size and strlen
         var fontHeight = Graphics.getFontHeight(font);
         var width = params.get(:width) as Lang.Number?;
         if (width == null) {
-            width = fontHeight * text.length();
+            // 0.7 is estimation
+            width = fontHeight * strlen;
         }
 
         var height = params.get(:height) as Lang.Number?;
@@ -71,7 +92,7 @@ class TextComponent extends Component {
     }
 
     protected function draw(bdc as Dc) as Void {
-        bdc.setColor(Graphics.COLOR_RED, Graphics.COLOR_TRANSPARENT);
+        bdc.setColor(self._foreground, self._background);
         bdc.clear();
         var x = 0;
         var y = 0;
