@@ -94,15 +94,16 @@ class TextComponent extends Component {
     protected function draw(bdc as Dc) as Void {
         bdc.setColor(self._foreground, self._background);
         bdc.clear();
+        var bb = self.getBoundingBox();
         var x = 0;
         var y = 0;
         if (self._justify == Graphics.TEXT_JUSTIFY_RIGHT) {
-            x = self.getWidth();
+            x = bb.width;
         } else if (self._justify == Graphics.TEXT_JUSTIFY_CENTER) {
-            x = self.getWidth() / 2;
+            x = bb.width / 2;
         } else if (self._justify == Graphics.TEXT_JUSTIFY_VCENTER) {
-            x = self.getWidth() / 2;
-            y = self.getHeight() / 2;
+            x = bb.width / 2;
+            y = bb.height / 2;
         }
         bdc.drawText(x, y, self._font, self._text, self._justify);
         self._invalid = false;

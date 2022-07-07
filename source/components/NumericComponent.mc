@@ -38,8 +38,8 @@ class NumericComponent extends Component {
         textSettings[:strlen] = digits;
         self._textComponent = new TextComponent(textSettings);
         Component.initialize({
-            :width => self._textComponent.getWidth(),
-            :height => self._textComponent.getHeight(),
+            :width => self._textComponent.getBoundingBox().width,
+            :height => self._textComponent.getBoundingBox().height,
         });
     }
 

@@ -27,6 +27,42 @@ class MyBoundingBox {
         return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
     }
 
+    public function setPos(x as Lang.Number, y as Lang.Number) as Void {
+        self.x = x;
+        self.y = y;
+    }
+
+    public function setPosCenterRightJustify(
+        boundingBox as MyBoundingBox
+    ) as Void {
+        var width = boundingBox.width - boundingBox.x;
+        var height = boundingBox.height - boundingBox.y;
+        self.setPos(
+            boundingBox.x + width / 2 - self.width,
+            boundingBox.y + height / 2 - self.height / 2
+        );
+    }
+
+    public function setPosCenterLeftJustify(
+        boundingBox as MyBoundingBox
+    ) as Void {
+        var width = boundingBox.width - boundingBox.x;
+        var height = boundingBox.height - boundingBox.y;
+        self.setPos(
+            boundingBox.x + width / 2,
+            boundingBox.y + height / 2 - self.height / 2
+        );
+    }
+
+    public function setPosCenter(boundingBox as MyBoundingBox) as Void {
+        var width = boundingBox.width - x;
+        var height = boundingBox.height - y;
+        self.setPos(
+            boundingBox.x + width / 2 - self.width / 2,
+            boundingBox.y + height / 2 - self.height / 2
+        );
+    }
+
     // static public function intersects()
 
     // public function intersect(other as MyBoundingBox) as MyBoundingBox? {

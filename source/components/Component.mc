@@ -42,63 +42,6 @@ class Component {
         return self.boundingBox;
     }
 
-    public function getWidth() as Lang.Number {
-        return self.boundingBox.width;
-    }
-
-    public function getHeight() as Lang.Number {
-        return self.boundingBox.height;
-    }
-
-    public function getOffsetX() as Lang.Number {
-        return self.boundingBox.x;
-    }
-
-    public function getOffsetY() as Lang.Number {
-        return self.boundingBox.y;
-    }
-
-    public function setPos(x as Lang.Number, y as Lang.Number) as Void {
-        self.boundingBox.x = x;
-        self.boundingBox.y = y;
-    }
-
-    public function setPosCenterRightJustify(
-        boundingBox as MyBoundingBox
-    ) as Void {
-        var width = boundingBox.width - boundingBox.x;
-        var height = boundingBox.height - boundingBox.y;
-        self.setPos(
-            boundingBox.x + width / 2 - self.getWidth(),
-            boundingBox.y + height / 2 - self.getHeight() / 2
-        );
-    }
-
-    public function setPosCenterLeftJustify(
-        boundingBox as MyBoundingBox
-    ) as Void {
-        var width = boundingBox.width - boundingBox.x;
-        var height = boundingBox.height - boundingBox.y;
-        self.setPos(
-            boundingBox.x + width / 2,
-            boundingBox.y + height / 2 - self.getHeight() / 2
-        );
-    }
-
-    public function setPosCenter(
-        x as Lang.Number,
-        y as Lang.Number,
-        width as Lang.Number,
-        height as Lang.Number
-    ) as Void {
-        width -= x;
-        height -= y;
-        self.setPos(
-            x + width / 2 - self.getWidth() / 2,
-            y + height / 2 - self.getHeight() / 2
-        );
-    }
-
     public function addToLayer(layer as ComponentLayer) as Void {
         self.layer = layer.weak();
     }

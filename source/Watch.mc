@@ -5,7 +5,7 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class Watch extends WatchUi.WatchFace {
-    private var componentLayer as ComponentLayer?;
+    private var _componentLayer as ComponentLayer?;
 
     public function initialize() {
         WatchFace.initialize();
@@ -36,20 +36,15 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
             },
         });
-        hoursCom.setPosCenterRightJustify(dcArea);
-        minutesCom.setPosCenterLeftJustify(dcArea);
-        secondsCom.setPosCenter(
-            0,
-            dc.getHeight() / 2,
-            dc.getWidth(),
-            dc.getHeight()
-        );
+        hoursCom.getBoundingBox().setPosCenterRightJustify(dcArea);
+        minutesCom.getBoundingBox().setPosCenterLeftJustify(dcArea);
+        secondsCom.getBoundingBox().setPosCenter(dcArea);
 
         // componentLayer.add(testCom);
         componentLayer.add(hoursCom);
         componentLayer.add(minutesCom);
         componentLayer.add(secondsCom);
-        self.componentLayer = componentLayer;
+        self._componentLayer = componentLayer;
     }
 
     public function onShow() as Void {}
@@ -88,7 +83,7 @@ class Watch extends WatchUi.WatchFace {
         }
 
         var now = System.getTimer();
-        var componentLayer = self.componentLayer;
+        var componentLayer = self._componentLayer;
         if (componentLayer != null) {
             componentLayer.update(now);
             componentLayer.renderToView(dc, partial);
