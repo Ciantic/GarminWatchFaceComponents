@@ -87,7 +87,7 @@ class TextComponent extends Component {
 
     public function update(time as Lang.Number) as Void {}
 
-    protected function shouldRedraw() as Boolean {
+    public function isInvalid() as Boolean {
         return self._invalid;
     }
 

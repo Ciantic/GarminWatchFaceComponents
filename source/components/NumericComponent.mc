@@ -51,12 +51,16 @@ class NumericComponent extends Component {
         }
     }
 
+    public function getBitmap() as BufferedBitmapReference? {
+        return self._textComponent.getBitmap();
+    }
+
     public function render() as BufferedBitmapReference {
         self._invalid = false;
         return self._textComponent.render();
     }
 
-    protected function shouldRedraw() as Boolean {
+    public function isInvalid() as Boolean {
         return self._invalid;
     }
 }

@@ -10,6 +10,14 @@ function max(a as Lang.Number, b as Lang.Number) as Lang.Number {
     }
 }
 
+function min(a as Lang.Number, b as Lang.Number) as Lang.Number {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
 function getDc(bitmap as BufferedBitmapReference?) as Dc? {
     // Poor mans optiona chaining bitmap?.get()?.getDc()
     var ref = (bitmap != null ? bitmap.get() : null) as BufferedBitmap?;

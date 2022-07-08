@@ -6,6 +6,7 @@ class MyBoundingBox {
     public var y as Lang.Number;
     public var width as Lang.Number;
     public var height as Lang.Number;
+    public var regions as Array<MyBoundingBox>?;
 
     public function initialize(
         x as Lang.Number,
@@ -63,9 +64,13 @@ class MyBoundingBox {
         );
     }
 
-    // static public function intersects()
-
-    // public function intersect(other as MyBoundingBox) as MyBoundingBox? {
-    //     self.x;
-    // }
+    public function isIntersecting(other as MyBoundingBox) as Boolean {
+        // prettier-ignore
+        return (
+            (self.x + self.width) > other.x &&
+            (other.x + other.width) > self.x &&
+            (self.y + self.height) > other.y &&
+            (other.y + other.height) > self.y
+        );
+    }
 }

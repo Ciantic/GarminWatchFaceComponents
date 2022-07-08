@@ -33,10 +33,10 @@ class ComponentLayer extends Component {
         }
     }
 
-    protected function shouldRedraw() as Boolean {
+    public function isInvalid() as Boolean {
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
-            if (com.__shouldRedraw()) {
+            if (com.isInvalid()) {
                 return true;
             }
         }
@@ -69,23 +69,64 @@ class ComponentLayer extends Component {
 
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
-            var changed = com.__shouldRedraw();
+            var changed = com.isInvalid();
             if (changed) {
                 var combitmap = com.render() as BufferedBitmapReference;
                 if (combitmap == null) {
                     System.println("Unknown: Combitmap was not fetched");
                     continue;
                 }
-                var bb = com.getBoundingBox();
-                bdc.setClip(bb.x, bb.y, bb.width, bb.height);
-                // TODO: This should actually find overlapping elements in the
-                // layer and clear them here
-                bdc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                bdc.clear();
-                bdc.drawBitmap(bb.x, bb.y, combitmap);
+                var invalidAreas = com.getInvalidAreas();
+                for (var j = 0; j < invalidAreas.size(); j++) {
+                    var box = invalidAreas[j];
+                    bdc.setClip(box.x, box.y, box.width, box.height);
+                    bdc.setColor(
+                        Graphics.COLOR_WHITE,
+                        Graphics.COLOR_TRANSPARENT
+                    );
+                    bdc.clear();
+
+                    // For all layers before, check if they intersect and draw
+                    // the intersecting part
+                    for (var k = 0; k < i; k++) {
+                        var underneath = self._components[k];
+                        var uDrawnAreas = underneath.getDrawnAreas();
+                        var uubox = underneath.getBoundingBox();
+                        var ubit = underneath.getBitmap();
+                        if (ubit == null) {
+                            log("Unknown: " + underneath.name + " no bitmap");
+                            continue;
+                        }
+                        for (var h = 0; h < uDrawnAreas.size(); h++) {
+                            var ubox = uDrawnAreas[h];
+                            if (!ubox.isIntersecting(box)) {
+                                continue;
+                            }
+                            // log("Draw intersect of " + ubox + " and " + box);
+                            bdc.drawBitmap(uubox.x, uubox.y, ubit);
+                        }
+                    }
+                }
+
+                var comDrawnAreas = com.getDrawnAreas();
+                var combb = com.getBoundingBox();
+                for (var j = 0; j < comDrawnAreas.size(); j++) {
+                    var box = comDrawnAreas[j];
+                    bdc.setClip(box.x, box.y, box.width, box.height);
+                    bdc.drawBitmap(combb.x, combb.y, combitmap);
+                    drawnAreas.add(box);
+                    // log("Drawn " + com.name + " " + box.toString());
+                }
                 bdc.clearClip();
-                System.println("Drawn " + com.name + " " + bb.toString());
-                drawnAreas.add(bb);
+
+                // var bb = com.getBoundingBox();
+                // bdc.setClip(bb.x, bb.y, bb.width, bb.height);
+                // // TODO: This should actually find overlapping elements in the
+                // // layer and clear them here
+                // bdc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+                // bdc.clear();
+                // bdc.drawBitmap(bb.x, bb.y, combitmap);
+                // bdc.clearClip();
             }
         }
 

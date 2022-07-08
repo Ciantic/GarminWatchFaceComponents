@@ -34,6 +34,8 @@ class Watch extends WatchUi.WatchFace {
             :textSettings => {
                 :font => Graphics.FONT_MEDIUM,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                :width => 30,
+                :foreground => Graphics.COLOR_BLUE,
             },
         });
         hoursCom.getBoundingBox().setPosCenterRightJustify(dcArea);

@@ -10,10 +10,11 @@ class Component {
     (:debug)
     public var name as Lang.String = "Unset";
 
-    private var id as Lang.Number;
-    private var bitmap as BufferedBitmapReference?;
-    private var boundingBox as MyBoundingBox;
-    private var layer as WeakReference?;
+    private var _id as Lang.Number;
+    private var _bitmap as BufferedBitmapReference?;
+    private var _boundingBox as MyBoundingBox;
+    private var _layer as WeakReference?;
+    private var _invalidAndDrawArea as Lang.Array<MyBoundingBox>?;
 
     public function initialize(
         params as
@@ -25,38 +26,38 @@ class Component {
             }
     ) {
         componentId += 1;
-        self.id = componentId;
+        self._id = componentId;
 
         var w = params.get(:width);
         var h = params.get(:height);
-        self.boundingBox = new MyBoundingBox(
+        self._boundingBox = new MyBoundingBox(
             0,
             0,
             w != null ? w : 0,
             h != null ? h : 0
         );
-        self.bitmap = null;
+        self._bitmap = null;
     }
 
     public function getBoundingBox() as MyBoundingBox {
-        return self.boundingBox;
+        return self._boundingBox;
     }
 
     public function addToLayer(layer as ComponentLayer) as Void {
-        self.layer = layer.weak();
+        self._layer = layer.weak();
     }
 
     public function render() as BufferedBitmapReference {
-        var bitmap = self.bitmap as BufferedBitmapReference;
+        var bitmap = self._bitmap as BufferedBitmapReference;
         if (bitmap == null) {
             bitmap = Graphics.createBufferedBitmap({
-                :width => self.boundingBox.width,
-                :height => self.boundingBox.height,
+                :width => self._boundingBox.width,
+                :height => self._boundingBox.height,
             });
-            self.bitmap = bitmap;
+            self._bitmap = bitmap;
         }
 
-        if (self.shouldRedraw()) {
+        if (self.isInvalid()) {
             var ref = (bitmap != null ? bitmap.get() : null) as BufferedBitmap?;
             var bdc = ref != null ? ref.getDc() : null;
             if (bdc == null) {
@@ -69,21 +70,42 @@ class Component {
         return bitmap;
     }
 
+    public function getBitmap() as BufferedBitmapReference? {
+        return self._bitmap;
+    }
+
     public function update(time as Lang.Number) as Void {
         System.println("Update must be implemented on extending class");
     }
 
-    protected function shouldRedraw() as Boolean {
+    public function isInvalid() as Boolean {
         System.println("Is invalid must be implemented on extending class");
         return false;
     }
 
-    protected function draw(dc as Dc) as Void {
-        System.println("Draw must be implemented on extending class");
+    public function getInvalidAreas() as Lang.Array<MyBoundingBox> {
+        // This only needs to be overridden on special components, with
+        // non-rectangular or movement action, e.g. analog dials
+
+        if (self._invalidAndDrawArea == null) {
+            self._invalidAndDrawArea =
+                [self._boundingBox] as Lang.Array<MyBoundingBox>;
+        }
+        return self._invalidAndDrawArea as Lang.Array<MyBoundingBox>;
     }
 
-    // Intended for interop with ComponentLayer, at the moment I can't figure out other good uses from outside
-    public function __shouldRedraw() as Boolean {
-        return self.shouldRedraw();
+    public function getDrawnAreas() as Lang.Array<MyBoundingBox> {
+        // This only needs to be overridden on special components, with
+        // non-rectangular or movement action, e.g. analog dials
+
+        if (self._invalidAndDrawArea == null) {
+            self._invalidAndDrawArea =
+                [self._boundingBox] as Lang.Array<MyBoundingBox>;
+        }
+        return self._invalidAndDrawArea as Lang.Array<MyBoundingBox>;
+    }
+
+    protected function draw(dc as Dc) as Void {
+        System.println("Draw must be implemented on extending class");
     }
 }
