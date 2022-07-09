@@ -56,11 +56,9 @@ class MyBoundingBox {
     }
 
     public function setPosCenter(boundingBox as MyBoundingBox) as Void {
-        var width = boundingBox.width - x;
-        var height = boundingBox.height - y;
         self.setPos(
-            boundingBox.x + width / 2 - self.width / 2,
-            boundingBox.y + height / 2 - self.height / 2
+            boundingBox.x + boundingBox.width / 2 - self.width / 2,
+            boundingBox.y + boundingBox.height / 2 - self.height / 2
         );
     }
 
@@ -72,5 +70,17 @@ class MyBoundingBox {
             (self.y + self.height) > other.y &&
             (other.y + other.height) > self.y
         );
+    }
+
+    public function getLowerHalf() as MyBoundingBox {
+        return new MyBoundingBox(
+            self.x,
+            self.y + self.height / 2,
+            self.width,
+            self.height / 2
+        );
+    }
+    public function getUpperHalf() as MyBoundingBox {
+        return new MyBoundingBox(self.x, self.y, self.width, self.height / 2);
     }
 }

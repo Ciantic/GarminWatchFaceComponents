@@ -102,7 +102,7 @@ class ComponentLayer extends Component {
                             if (!ubox.isIntersecting(box)) {
                                 continue;
                             }
-                            // log("Draw intersect of " + ubox + " and " + box);
+                            log("Draw intersect of " + ubox + " and " + box);
                             bdc.drawBitmap(uubox.x, uubox.y, ubit);
                         }
                     }
@@ -118,15 +118,6 @@ class ComponentLayer extends Component {
                     // log("Drawn " + com.name + " " + box.toString());
                 }
                 bdc.clearClip();
-
-                // var bb = com.getBoundingBox();
-                // bdc.setClip(bb.x, bb.y, bb.width, bb.height);
-                // // TODO: This should actually find overlapping elements in the
-                // // layer and clear them here
-                // bdc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-                // bdc.clear();
-                // bdc.drawBitmap(bb.x, bb.y, combitmap);
-                // bdc.clearClip();
             }
         }
 

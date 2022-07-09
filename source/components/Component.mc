@@ -15,6 +15,8 @@ class Component {
     private var _boundingBox as MyBoundingBox;
     private var _layer as WeakReference?;
     private var _invalidAndDrawArea as Lang.Array<MyBoundingBox>?;
+    private var _invalid as Boolean?;
+    // private var _invalid = true;
 
     public function initialize(
         params as
@@ -74,13 +76,10 @@ class Component {
         return self._bitmap;
     }
 
-    public function update(time as Lang.Number) as Void {
-        System.println("Update must be implemented on extending class");
-    }
+    public function update(time as Lang.Number) as Void {}
 
     public function isInvalid() as Boolean {
-        System.println("Is invalid must be implemented on extending class");
-        return false;
+        return self._invalid != null ? self._invalid : true;
     }
 
     public function getInvalidAreas() as Lang.Array<MyBoundingBox> {
@@ -106,6 +105,6 @@ class Component {
     }
 
     protected function draw(dc as Dc) as Void {
-        System.println("Draw must be implemented on extending class");
+        self._invalid = false;
     }
 }

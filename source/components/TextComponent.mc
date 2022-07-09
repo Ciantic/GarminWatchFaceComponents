@@ -97,12 +97,16 @@ class TextComponent extends Component {
         var bb = self.getBoundingBox();
         var x = 0;
         var y = 0;
-        if (self._justify == Graphics.TEXT_JUSTIFY_RIGHT) {
+        if ((self._justify & Graphics.TEXT_JUSTIFY_LEFT) != 0) {
+            x = 0;
+        } else if ((self._justify & Graphics.TEXT_JUSTIFY_CENTER) != 0) {
+            x = bb.width / 2;
+        } else {
+            // TEXT_JUSTIFY_RIGHT
             x = bb.width;
-        } else if (self._justify == Graphics.TEXT_JUSTIFY_CENTER) {
-            x = bb.width / 2;
-        } else if (self._justify == Graphics.TEXT_JUSTIFY_VCENTER) {
-            x = bb.width / 2;
+        }
+
+        if ((self._justify & Graphics.TEXT_JUSTIFY_VCENTER) != 0) {
             y = bb.height / 2;
         }
         bdc.drawText(x, y, self._font, self._text, self._justify);

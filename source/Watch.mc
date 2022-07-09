@@ -18,16 +18,27 @@ class Watch extends WatchUi.WatchFace {
             :height => dc.getHeight(),
         });
 
+        var bg = new ImageComponent({
+            :width => dc.getWidth(),
+            :height => dc.getHeight(),
+        });
+
         var hoursCom = new HoursComponent({
             :textSettings => {
                 :font => Graphics.FONT_NUMBER_THAI_HOT,
                 :justify => Graphics.TEXT_JUSTIFY_RIGHT,
+                // :height => 90,
+                // :background => Graphics.COLOR_GREEN,
             },
         });
         var minutesCom = new MinutesComponent({
             :textSettings => {
                 :font => Graphics.FONT_NUMBER_THAI_HOT,
-                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+                :justify => (
+                    Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
+                ) as Graphics.TextJustification,
+                // :height => 90,
+                // :background => Graphics.COLOR_RED,
             },
         });
         var secondsCom = new SecondsComponent({
@@ -36,16 +47,39 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 :width => 30,
                 :foreground => Graphics.COLOR_BLUE,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+        var secondsCom2 = new SecondsComponent({
+            :textSettings => {
+                :font => Graphics.FONT_MEDIUM,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                :width => 30,
+                :foreground => Graphics.COLOR_BLUE,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+        var secondsCom3 = new SecondsComponent({
+            :textSettings => {
+                :font => Graphics.FONT_MEDIUM,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                :width => 30,
+                :foreground => Graphics.COLOR_BLUE,
+                // :background => Graphics.COLOR_YELLOW,
             },
         });
         hoursCom.getBoundingBox().setPosCenterRightJustify(dcArea);
         minutesCom.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secondsCom.getBoundingBox().setPosCenter(dcArea);
-
+        secondsCom2.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
+        secondsCom3.getBoundingBox().setPosCenter(dcArea.getUpperHalf());
         // componentLayer.add(testCom);
+        componentLayer.add(bg);
         componentLayer.add(hoursCom);
         componentLayer.add(minutesCom);
         componentLayer.add(secondsCom);
+        // componentLayer.add(secondsCom2);
+        // componentLayer.add(secondsCom3);
         self._componentLayer = componentLayer;
     }
 
@@ -63,7 +97,7 @@ class Watch extends WatchUi.WatchFace {
     public function onExitSleep() as Void {}
 
     public function onEnterSleep() as Void {
-        WatchUi.requestUpdate();
+        // WatchUi.requestUpdate();
     }
 
     public function onPowerBudgetExceeded(
