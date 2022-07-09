@@ -21,7 +21,6 @@ class TextComponent extends Component {
     private var _text as Lang.String;
     private var _font as Graphics.FontType;
     private var _justify as Lang.Number;
-    private var _invalid as Boolean = true;
     private var _foreground as Graphics.ColorType = Graphics.COLOR_WHITE;
     private var _background as Graphics.ColorType = Graphics.COLOR_TRANSPARENT;
 
@@ -72,23 +71,14 @@ class TextComponent extends Component {
         self._justify = justify;
         self._text = text;
         self._font = font;
-        Component.initialize({
-            :width => width,
-            :height => height,
-        });
+        Component.initialize(new MyBoundingBox(0, 0, width, height));
     }
 
     public function setText(newText as Lang.String) as Void {
         if (!self._text.equals(newText)) {
-            self._invalid = true;
             self._text = newText;
+            self._invalid = true;
         }
-    }
-
-    public function update(time as Lang.Number) as Void {}
-
-    public function isInvalid() as Boolean {
-        return self._invalid;
     }
 
     protected function draw(bdc as Dc) as Void {
@@ -110,6 +100,6 @@ class TextComponent extends Component {
             y = bb.height / 2;
         }
         bdc.drawText(x, y, self._font, self._text, self._justify);
-        self._invalid = false;
+        Component.draw(bdc);
     }
 }

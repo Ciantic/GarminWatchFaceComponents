@@ -7,18 +7,9 @@ import Toybox.Time;
 class ImageComponent extends Component {
     (:debug)
     public var name as Lang.String = "ImageComponent";
-    private var _invalid as Boolean = true;
 
-    public function initialize(
-        params as
-            {
-                :width as Lang.Number,
-                :height as Lang.Number,
-                // :x as Lang.Number,
-                // :y as Lang.Number,
-            }
-    ) {
-        Component.initialize(params);
+    public function initialize(box as MyBoundingBox) {
+        Component.initialize(box);
     }
 
     protected function draw(dc as Dc) as Void {

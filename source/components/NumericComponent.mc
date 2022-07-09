@@ -17,7 +17,6 @@ class NumericComponent extends Component {
     private var _textComponent as TextComponent;
     private var _format as Lang.String = "%d";
     private var _value as Lang.Number = 0;
-    private var _invalid as Boolean = true;
 
     public function initialize(params as NumericSettings) {
         var value = params.get(:value) as Lang.Number?;
@@ -37,10 +36,7 @@ class NumericComponent extends Component {
         textSettings[:text] = value.format(self._format);
         textSettings[:strlen] = digits;
         self._textComponent = new TextComponent(textSettings);
-        Component.initialize({
-            :width => self._textComponent.getBoundingBox().width,
-            :height => self._textComponent.getBoundingBox().height,
-        });
+        Component.initialize(self._textComponent.getBoundingBox());
     }
 
     public function setValue(value as Lang.Number) as Void {
@@ -58,9 +54,5 @@ class NumericComponent extends Component {
     public function render() as BufferedBitmapReference {
         self._invalid = false;
         return self._textComponent.render();
-    }
-
-    public function isInvalid() as Boolean {
-        return self._invalid;
     }
 }

@@ -13,15 +13,9 @@ class Watch extends WatchUi.WatchFace {
 
     public function onLayout(dc as Dc) as Void {
         var dcArea = MyBoundingBox.fromDc(dc);
-        var componentLayer = new ComponentLayer({
-            :width => dc.getWidth(),
-            :height => dc.getHeight(),
-        });
+        var componentLayer = new ComponentLayer(dcArea);
 
-        var bg = new ImageComponent({
-            :width => dc.getWidth(),
-            :height => dc.getHeight(),
-        });
+        var bg = new ImageComponent(dcArea);
 
         var hoursCom = new HoursComponent({
             :textSettings => {
@@ -77,9 +71,9 @@ class Watch extends WatchUi.WatchFace {
         componentLayer.add(bg);
         componentLayer.add(hoursCom);
         componentLayer.add(minutesCom);
-        componentLayer.add(secondsCom);
+        // componentLayer.add(secondsCom);
         // componentLayer.add(secondsCom2);
-        // componentLayer.add(secondsCom3);
+        componentLayer.add(secondsCom3);
         self._componentLayer = componentLayer;
     }
 

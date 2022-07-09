@@ -9,16 +9,10 @@ class ComponentLayer extends Component {
     private var _components as Lang.Array<Component>;
     private var _drawnAreas as Lang.Array<MyBoundingBox>;
 
-    public function initialize(
-        params as
-            {
-                :width as Lang.Number,
-                :height as Lang.Number,
-            }
-    ) {
+    public function initialize(box as MyBoundingBox) {
         self._components = [] as Lang.Array<Component>;
         self._drawnAreas = [] as Lang.Array<MyBoundingBox>;
-        Component.initialize(params);
+        Component.initialize(box);
     }
 
     public function add(com as Component) as Void {

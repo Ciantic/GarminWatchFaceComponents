@@ -15,29 +15,14 @@ class Component {
     private var _boundingBox as MyBoundingBox;
     private var _layer as WeakReference?;
     private var _invalidAndDrawArea as Lang.Array<MyBoundingBox>?;
-    private var _invalid as Boolean?;
+    protected var _invalid as Boolean?;
     // private var _invalid = true;
 
-    public function initialize(
-        params as
-            {
-                :width as Lang.Number,
-                :height as Lang.Number,
-                // :x as Lang.Number,
-                // :y as Lang.Number,
-            }
-    ) {
+    public function initialize(boundingBox as MyBoundingBox) {
         componentId += 1;
         self._id = componentId;
 
-        var w = params.get(:width);
-        var h = params.get(:height);
-        self._boundingBox = new MyBoundingBox(
-            0,
-            0,
-            w != null ? w : 0,
-            h != null ? h : 0
-        );
+        self._boundingBox = boundingBox;
         self._bitmap = null;
     }
 
