@@ -17,10 +17,10 @@ class ImageComponent extends Component {
         dc.clear();
         // dc.setFill(Graphics.COLOR_RED);
         dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
-        dc.drawCircle(1, 1, 50);
+        dc.drawCircle(50, 50, 50);
         // dc.setFill(Graphics.COLOR_BLUE);
         dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_BLUE);
-        dc.drawCircle(60, 1, 50);
+        dc.drawCircle(90, 90, 50);
         Component.draw(dc);
     }
 }

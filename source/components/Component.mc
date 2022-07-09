@@ -13,7 +13,6 @@ class Component {
     private var _id as Lang.Number;
     private var _bitmap as BufferedBitmapReference?;
     private var _boundingBox as MyBoundingBox;
-    private var _layer as WeakReference?;
     private var _invalidAndDrawArea as Lang.Array<MyBoundingBox>?;
     protected var _invalid as Boolean?;
     // private var _invalid = true;
@@ -21,17 +20,12 @@ class Component {
     public function initialize(boundingBox as MyBoundingBox) {
         componentId += 1;
         self._id = componentId;
-
         self._boundingBox = boundingBox;
         self._bitmap = null;
     }
 
     public function getBoundingBox() as MyBoundingBox {
         return self._boundingBox;
-    }
-
-    public function addToLayer(layer as ComponentLayer) as Void {
-        self._layer = layer.weak();
     }
 
     public function render() as BufferedBitmapReference {

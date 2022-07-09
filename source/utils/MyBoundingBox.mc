@@ -6,7 +6,7 @@ class MyBoundingBox {
     public var y as Lang.Number;
     public var width as Lang.Number;
     public var height as Lang.Number;
-    public var regions as Array<MyBoundingBox>?;
+    private var _onChange as Lang.Method?;
 
     public function initialize(
         x as Lang.Number,
@@ -20,6 +20,10 @@ class MyBoundingBox {
         self.height = height;
     }
 
+    public function setOnChange(onChange as Lang.Method) as Void {
+        self._onChange = onChange;
+    }
+
     public function toString() {
         return "x:" + x + " y:" + y + " " + width + "*" + height;
     }
@@ -28,9 +32,25 @@ class MyBoundingBox {
         return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
     }
 
+    public function set(box as MyBoundingBox) as Void {
+        if (self._onChange != null) {
+            (self._onChange as Lang.Method).invoke(self, box);
+        }
+        self.x = box.x;
+        self.y = box.y;
+        self.width = box.width;
+        self.height = box.height;
+    }
+
     public function setPos(x as Lang.Number, y as Lang.Number) as Void {
-        self.x = x;
-        self.y = y;
+        self.set(new MyBoundingBox(x, y, self.width, self.height));
+    }
+
+    public function setSize(
+        width as Lang.Number,
+        height as Lang.Number
+    ) as Void {
+        self.set(new MyBoundingBox(self.x, self.y, width, height));
     }
 
     public function setPosCenterRightJustify(
@@ -80,6 +100,7 @@ class MyBoundingBox {
             self.height / 2
         );
     }
+
     public function getUpperHalf() as MyBoundingBox {
         return new MyBoundingBox(self.x, self.y, self.width, self.height / 2);
     }

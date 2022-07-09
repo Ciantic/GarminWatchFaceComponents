@@ -17,7 +17,6 @@ class ComponentLayer extends Component {
 
     public function add(com as Component) as Void {
         self._components.add(com);
-        com.addToLayer(self);
     }
 
     public function update(time as Lang.Number) as Void {
@@ -96,7 +95,7 @@ class ComponentLayer extends Component {
                             if (!ubox.isIntersecting(box)) {
                                 continue;
                             }
-                            log("Draw intersect of " + ubox + " and " + box);
+                            // log("Draw intersect of " + ubox + " and " + box);
                             bdc.drawBitmap(uubox.x, uubox.y, ubit);
                         }
                     }

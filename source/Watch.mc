@@ -71,9 +71,9 @@ class Watch extends WatchUi.WatchFace {
         componentLayer.add(bg);
         componentLayer.add(hoursCom);
         componentLayer.add(minutesCom);
-        // componentLayer.add(secondsCom);
+        componentLayer.add(secondsCom);
         // componentLayer.add(secondsCom2);
-        componentLayer.add(secondsCom3);
+        // componentLayer.add(secondsCom3);
         self._componentLayer = componentLayer;
     }
 
