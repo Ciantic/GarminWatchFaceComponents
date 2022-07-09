@@ -32,25 +32,56 @@ class MyBoundingBox {
         return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
     }
 
-    public function set(box as MyBoundingBox) as Void {
+    public static function fromPoints(
+        x1 as Lang.Number,
+        y1 as Lang.Number,
+        x2 as Lang.Number,
+        y2 as Lang.Number
+    ) as MyBoundingBox {
+        var x = min(x1, x2);
+        var y = min(y1, y2);
+        var width = (x2 - x1).abs();
+        var height = (y2 - y1).abs();
+        return new MyBoundingBox(x, y, width, height);
+    }
+
+    public function set(
+        x as Lang.Number,
+        y as Lang.Number,
+        width as Lang.Number,
+        height as Lang.Number
+    ) as Void {
+        self.x = x;
+        self.y = y;
+        self.width = width;
+        self.height = height;
+
         if (self._onChange != null) {
-            (self._onChange as Lang.Method).invoke(self, box);
+            (self._onChange as Lang.Method).invoke(
+                new MyBoundingBox(self.x, self.y, self.width, self.height),
+                self
+            );
         }
-        self.x = box.x;
-        self.y = box.y;
-        self.width = box.width;
-        self.height = box.height;
+    }
+
+    public function addMargin(n as Lang.Number) as Void {
+        self.set(
+            self.x - n,
+            self.y - n,
+            self.width + n * 2,
+            self.height + n * 2
+        );
     }
 
     public function setPos(x as Lang.Number, y as Lang.Number) as Void {
-        self.set(new MyBoundingBox(x, y, self.width, self.height));
+        self.set(x, y, self.width, self.height);
     }
 
     public function setSize(
         width as Lang.Number,
         height as Lang.Number
     ) as Void {
-        self.set(new MyBoundingBox(self.x, self.y, width, height));
+        self.set(self.x, self.y, width, height);
     }
 
     public function setPosCenterRightJustify(
@@ -103,5 +134,9 @@ class MyBoundingBox {
 
     public function getUpperHalf() as MyBoundingBox {
         return new MyBoundingBox(self.x, self.y, self.width, self.height / 2);
+    }
+
+    public function setAsClip(dc as Dc) as Void {
+        dc.setClip(self.x, self.y, self.width, self.height);
     }
 }
