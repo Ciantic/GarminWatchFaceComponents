@@ -28,6 +28,16 @@ class MyBoundingBox {
         return "x:" + x + " y:" + y + " " + width + "*" + height;
     }
 
+    public function clone() as MyBoundingBox {
+        return new MyBoundingBox(self.x, self.y, self.width, self.height);
+    }
+
+    public function hashCode() as Lang.Number {
+        var a = 280000000000l;
+        // Unique for values up to 0-500
+        return x + y * 1000 + width * 1000000 + (height * 1000000 + 5000000);
+    }
+
     public static function fromDc(dc as Dc) as MyBoundingBox {
         return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
     }
@@ -64,12 +74,26 @@ class MyBoundingBox {
         }
     }
 
-    public function addMargin(n as Lang.Number) as Void {
+    public function addMarginAll(n as Lang.Number) as Void {
         self.set(
             self.x - n,
             self.y - n,
             self.width + n * 2,
             self.height + n * 2
+        );
+    }
+
+    public function addMargin(
+        top as Lang.Number,
+        right as Lang.Number,
+        bottom as Lang.Number,
+        left as Lang.Number
+    ) as Void {
+        self.set(
+            self.x - left,
+            self.y - top,
+            self.width + right + left,
+            self.height + bottom + top
         );
     }
 
@@ -121,6 +145,21 @@ class MyBoundingBox {
             (self.y + self.height) > other.y &&
             (other.y + other.height) > self.y
         );
+    }
+
+    public function unionToSelf(other as MyBoundingBox) as Void {
+        if (other.width == 0 || other.height == 0) {
+            return;
+        }
+        if (self.width == 0 || self.height == 0) {
+            self.set(other.x, other.y, other.width, other.height);
+            return;
+        }
+        var x = min(self.x, other.x);
+        var y = min(self.y, other.y);
+        var x2 = max(self.x + self.width, other.x + other.width);
+        var y2 = max(self.y + self.height, other.y + other.height);
+        self.set(x, y, x2 - x, y2 - y);
     }
 
     public function getLowerHalf() as MyBoundingBox {

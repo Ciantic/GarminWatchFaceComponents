@@ -70,9 +70,9 @@ class Watch extends WatchUi.WatchFace {
         secondsCom3.getBoundingBox().setPosCenter(dcArea.getUpperHalf());
         // componentLayer.add(testCom);
         componentLayer.add(bg);
-        componentLayer.add(hoursCom);
-        componentLayer.add(minutesCom);
-        componentLayer.add(secondsCom);
+        // componentLayer.add(hoursCom);
+        // componentLayer.add(minutesCom);
+        // componentLayer.add(secondsCom);
         componentLayer.add(secDial);
         // componentLayer.add(secondsCom2);
         // componentLayer.add(secondsCom3);

@@ -7,11 +7,11 @@ class ComponentLayer extends Component {
     public var name as Lang.String = "ComponentLayer";
 
     private var _components as Lang.Array<Component>;
-    private var _drawnAreas as Lang.Array<MyBoundingBox>;
+    private var _lastDrawArea as MyBoundingBox;
 
     public function initialize(box as MyBoundingBox) {
         self._components = [] as Lang.Array<Component>;
-        self._drawnAreas = [] as Lang.Array<MyBoundingBox>;
+        self._lastDrawArea = box.clone();
         Component.initialize(box);
     }
 
@@ -39,81 +39,88 @@ class ComponentLayer extends Component {
     public function renderToView(dc as Dc, partial as Boolean) as Void {
         var bitmap = self.render();
         if (bitmap == null) {
-            System.println("Unknown: renderToView Bitmap not found?");
+            log("Unknown: renderToView Bitmap not found?");
             return;
         }
 
         if (partial) {
-            for (var i = 0; i < self._drawnAreas.size(); i++) {
-                var bb = self._drawnAreas[i];
-                dc.setClip(bb.x, bb.y, bb.width, bb.height);
-                dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-                dc.clear();
-                dc.drawBitmap(0, 0, bitmap);
-                dc.clearClip();
-            }
+            var drawArea = self.getLastDrawArea();
+            // log("Partial");
+            dc.setClip(drawArea.x, drawArea.y, drawArea.width, drawArea.height);
+            dc.drawBitmap(0, 0, bitmap);
+            dc.clearClip();
         } else {
             dc.drawBitmap(0, 0, bitmap);
         }
     }
 
+    public function getLastDrawArea() as MyBoundingBox {
+        return self._lastDrawArea;
+    }
+
     protected function draw(bdc as Dc) as Void {
-        var drawnAreas = [] as Lang.Array<MyBoundingBox>;
+        self._lastDrawArea = new MyBoundingBox(0, 0, 0, 0);
 
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
             var changed = com.isInvalid();
             if (changed) {
-                var combitmap = com.render() as BufferedBitmapReference;
+                var invalidArea = com.getLastDrawArea();
+                var combitmap = com.render();
+                var comDrawnArea = com.getLastDrawArea();
+                var combb = com.getBoundingBox();
+
                 if (combitmap == null) {
-                    System.println("Unknown: Combitmap was not fetched");
+                    log("Unknown: Combitmap was not fetched");
                     continue;
                 }
-                var invalidAreas = com.getInvalidAreas();
-                for (var j = 0; j < invalidAreas.size(); j++) {
-                    var box = invalidAreas[j];
-                    bdc.setClip(box.x, box.y, box.width, box.height);
-                    bdc.setColor(
-                        Graphics.COLOR_WHITE,
-                        Graphics.COLOR_TRANSPARENT
-                    );
-                    bdc.clear();
+                bdc.setClip(
+                    invalidArea.x,
+                    invalidArea.y,
+                    invalidArea.width,
+                    invalidArea.height
+                );
 
-                    // For all layers before, check if they intersect and draw
-                    // the intersecting part
-                    for (var k = 0; k < i; k++) {
-                        var underneath = self._components[k];
-                        var uDrawnAreas = underneath.getDrawnAreas();
-                        var uubox = underneath.getBoundingBox();
-                        var ubit = underneath.getBitmap();
-                        if (ubit == null) {
-                            log("Unknown: " + underneath.name + " no bitmap");
-                            continue;
-                        }
-                        for (var h = 0; h < uDrawnAreas.size(); h++) {
-                            var ubox = uDrawnAreas[h];
-                            if (!ubox.isIntersecting(box)) {
-                                continue;
-                            }
-                            // log("Draw intersect of " + ubox + " and " + box);
-                            bdc.drawBitmap(uubox.x, uubox.y, ubit);
-                        }
+                // For all layers before, check if their drawn part intersect
+                // and draw the intersecting part
+                for (var k = 0; k < i; k++) {
+                    var underneath = self._components[k];
+                    var uDrawnArea = underneath.getLastDrawArea();
+                    var uubox = underneath.getBoundingBox();
+                    var ubit = underneath.getBitmap();
+
+                    if (ubit == null) {
+                        log("Unknown: " + underneath.name + " no bitmap");
+                        continue;
                     }
+                    if (!uDrawnArea.isIntersecting(invalidArea)) {
+                        continue;
+                    }
+                    // bdc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_GREEN);
+                    // bdc.clear();
+                    bdc.drawBitmap(uubox.x, uubox.y, ubit);
+                    // log("Draw bg: " + " " + underneath.name + " " + uDrawnArea);
                 }
 
-                var comDrawnAreas = com.getDrawnAreas();
-                var combb = com.getBoundingBox();
-                for (var j = 0; j < comDrawnAreas.size(); j++) {
-                    var box = comDrawnAreas[j];
-                    bdc.setClip(box.x, box.y, box.width, box.height);
-                    bdc.drawBitmap(combb.x, combb.y, combitmap);
-                    drawnAreas.add(box);
-                    // log("Drawn " + com.name + " " + box.toString());
-                }
+                bdc.setClip(
+                    comDrawnArea.x,
+                    comDrawnArea.y,
+                    comDrawnArea.width,
+                    comDrawnArea.height
+                );
+                bdc.drawBitmap(combb.x, combb.y, combitmap);
                 bdc.clearClip();
+                self._lastDrawArea.unionToSelf(invalidArea);
+                self._lastDrawArea.unionToSelf(comDrawnArea);
+                log(
+                    "Invalid " +
+                        invalidArea +
+                        " new " +
+                        comDrawnArea +
+                        " comb " +
+                        self._lastDrawArea
+                );
             }
         }
-
-        self._drawnAreas = drawnAreas;
     }
 }

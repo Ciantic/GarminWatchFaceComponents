@@ -13,9 +13,7 @@ class Component {
     private var _id as Lang.Number;
     private var _bitmap as BufferedBitmapReference?;
     private var _boundingBox as MyBoundingBox;
-    private var _invalidAndDrawArea as Lang.Array<MyBoundingBox>?;
     protected var _invalid as Boolean?;
-    // private var _invalid = true;
 
     public function initialize(boundingBox as MyBoundingBox) {
         componentId += 1;
@@ -51,36 +49,18 @@ class Component {
         return bitmap;
     }
 
-    public function getBitmap() as BufferedBitmapReference? {
-        return self._bitmap;
-    }
-
     public function update(time as Lang.Number) as Void {}
 
     public function isInvalid() as Boolean {
         return self._invalid != null ? self._invalid : true;
     }
 
-    public function getInvalidAreas() as Lang.Array<MyBoundingBox> {
-        // This only needs to be overridden on special components, with
-        // non-rectangular or movement action, e.g. analog dials
-
-        if (self._invalidAndDrawArea == null) {
-            self._invalidAndDrawArea =
-                [self._boundingBox] as Lang.Array<MyBoundingBox>;
-        }
-        return self._invalidAndDrawArea as Lang.Array<MyBoundingBox>;
+    public function getLastDrawArea() as MyBoundingBox {
+        return self._boundingBox;
     }
 
-    public function getDrawnAreas() as Lang.Array<MyBoundingBox> {
-        // This only needs to be overridden on special components, with
-        // non-rectangular or movement action, e.g. analog dials
-
-        if (self._invalidAndDrawArea == null) {
-            self._invalidAndDrawArea =
-                [self._boundingBox] as Lang.Array<MyBoundingBox>;
-        }
-        return self._invalidAndDrawArea as Lang.Array<MyBoundingBox>;
+    public function getBitmap() as BufferedBitmapReference? {
+        return self._bitmap;
     }
 
     protected function draw(dc as Dc) as Void {

@@ -51,6 +51,10 @@ class NumericComponent extends Component {
         return self._textComponent.getBitmap();
     }
 
+    public function getLastDrawArea() as MyBoundingBox {
+        return self._textComponent.getLastDrawArea();
+    }
+
     public function render() as BufferedBitmapReference {
         self._invalid = false;
         return self._textComponent.render();
