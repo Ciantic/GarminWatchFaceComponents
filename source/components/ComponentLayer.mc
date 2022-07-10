@@ -59,68 +59,71 @@ class ComponentLayer extends Component {
     }
 
     protected function draw(bdc as Dc) as Void {
-        self._lastDrawArea = new MyBoundingBox(0, 0, 0, 0);
+        var lastDrawArea = new MyBoundingBox(0, 0, 0, 0);
 
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
-            var changed = com.isInvalid();
-            if (changed) {
-                var invalidArea = com.getLastDrawArea();
-                var combitmap = com.render();
-                var comDrawnArea = com.getLastDrawArea();
-                var combb = com.getBoundingBox();
+            if (!com.isInvalid()) {
+                continue;
+            }
+            var comInvalidArea = com.getLastDrawArea();
+            var comBitmap = com.render();
+            var comDrawnArea = com.getLastDrawArea();
+            var comBox = com.getBoundingBox();
 
-                if (combitmap == null) {
-                    log("Unknown: Combitmap was not fetched");
+            if (comBitmap == null) {
+                log("Unknown: Combitmap was not fetched");
+                continue;
+            }
+            bdc.setClip(
+                comInvalidArea.x,
+                comInvalidArea.y,
+                comInvalidArea.width,
+                comInvalidArea.height
+            );
+
+            // For all layers before, check if their drawn part intersect
+            // and draw the intersecting part
+            for (var k = 0; k < i; k++) {
+                var underneath = self._components[k];
+                var uBox = underneath.getBoundingBox();
+                var uBitmap = underneath.getBitmap();
+
+                if (uBitmap == null) {
+                    log("Unknown: " + underneath.name + " no bitmap");
                     continue;
                 }
-                bdc.setClip(
-                    invalidArea.x,
-                    invalidArea.y,
-                    invalidArea.width,
-                    invalidArea.height
-                );
-
-                // For all layers before, check if their drawn part intersect
-                // and draw the intersecting part
-                for (var k = 0; k < i; k++) {
-                    var underneath = self._components[k];
-                    var uDrawnArea = underneath.getLastDrawArea();
-                    var uubox = underneath.getBoundingBox();
-                    var ubit = underneath.getBitmap();
-
-                    if (ubit == null) {
-                        log("Unknown: " + underneath.name + " no bitmap");
-                        continue;
-                    }
-                    if (!uDrawnArea.isIntersecting(invalidArea)) {
-                        continue;
-                    }
-                    bdc.drawBitmap(uubox.x, uubox.y, ubit);
-                    // log("Draw bg: " + " " + underneath.name + " " + uDrawnArea);
+                if (!uBox.isIntersecting(comInvalidArea)) {
+                    continue;
                 }
-
-                bdc.setClip(
-                    comDrawnArea.x,
-                    comDrawnArea.y,
-                    comDrawnArea.width,
-                    comDrawnArea.height
-                );
-                bdc.drawBitmap(combb.x, combb.y, combitmap);
-                bdc.clearClip();
-                self._lastDrawArea.unionToSelf(invalidArea);
-                self._lastDrawArea.unionToSelf(comDrawnArea);
-                // log(
-                //     "Invalid " +
-                //         com.name +
-                //         " " +
-                //         invalidArea +
-                //         " new " +
-                //         comDrawnArea +
-                //         " comb " +
-                //         self._lastDrawArea
-                // );
+                bdc.drawBitmap(uBox.x, uBox.y, uBitmap);
+                // log("Draw bg: " + underneath.name + " bit " + invalidArea);
             }
+
+            bdc.setClip(
+                comDrawnArea.x,
+                comDrawnArea.y,
+                comDrawnArea.width,
+                comDrawnArea.height
+            );
+            bdc.drawBitmap(comBox.x, comBox.y, comBitmap);
+            bdc.clearClip();
+            lastDrawArea.unionToSelf(comInvalidArea);
+            lastDrawArea.unionToSelf(comDrawnArea);
+            lastDrawArea.intersectToSelf(self.getBoundingBox());
+            // log(
+            //     "Invalid " +
+            //         com.name +
+            //         " " +
+            //         invalidArea +
+            //         " new " +
+            //         comDrawnArea +
+            //         " comb " +
+            //         self._lastDrawArea
+            // );
+        }
+        if (lastDrawArea.width != 0) {
+            self._lastDrawArea = lastDrawArea;
         }
     }
 }

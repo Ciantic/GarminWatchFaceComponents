@@ -23,6 +23,8 @@ class NumericComponent extends Component {
         if (value == null) {
             value = 0;
         }
+        self._value = value;
+
         var format = params.get(:format) as Lang.String?;
         if (format != null) {
             self._format = format;
@@ -39,11 +41,10 @@ class NumericComponent extends Component {
         Component.initialize(self._textComponent.getBoundingBox());
     }
 
-    public function setValue(value as Lang.Number) as Void {
-        if (self._value != value) {
-            self._value = value;
-            self._textComponent.setText(value.format(self._format));
-            self._invalid = true;
+    public function setValue(newValue as Lang.Number) as Void {
+        if (self._value != newValue) {
+            self._value = newValue;
+            self._textComponent.setText(newValue.format(self._format));
         }
     }
 
@@ -55,8 +56,11 @@ class NumericComponent extends Component {
         return self._textComponent.getLastDrawArea();
     }
 
+    public function isInvalid() as Boolean {
+        return self._textComponent.isInvalid();
+    }
+
     public function render() as BufferedBitmapReference {
-        self._invalid = false;
         return self._textComponent.render();
     }
 }

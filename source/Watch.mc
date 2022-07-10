@@ -37,9 +37,10 @@ class Watch extends WatchUi.WatchFace {
         });
         var secs = new SecondsComponent({
             :textSettings => {
-                :font => Graphics.FONT_MEDIUM,
+                :font => Graphics.FONT_TINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
-                :width => 30,
+                // :width => 30,
+                // :height => 30,
                 // :foreground => Graphics.COLOR_BLUE,
                 // :background => Graphics.COLOR_YELLOW,
             },
@@ -90,12 +91,6 @@ class Watch extends WatchUi.WatchFace {
     }
 
     private function draw(dc as Dc, partial as Boolean) as Void {
-        // Clear full background on full update
-        if (!partial) {
-            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_BLACK);
-            dc.clear();
-        }
-
         var componentLayer = self._componentLayer;
         if (componentLayer != null) {
             componentLayer.update();

@@ -130,7 +130,17 @@ class MyBoundingBox {
         var y = min(self.y, other.y);
         var x2 = max(self.x + self.width, other.x + other.width);
         var y2 = max(self.y + self.height, other.y + other.height);
-        self.set(x, y, x2 - x, y2 - y);
+        self.set(x, y, (x2 - x).abs(), (y2 - y).abs());
+    }
+
+    public function intersectToSelf(other as MyBoundingBox) as Void {
+        var leftX = max(self.x, other.x);
+        var rightX = min(self.x + self.width, other.x + other.width);
+        var topY = max(self.y, other.y);
+        var bottomY = min(self.y + self.height, other.y + other.height);
+        if (leftX < rightX && topY < bottomY) {
+            self.set(leftX, topY, rightX - leftX, bottomY - topY);
+        }
     }
 
     public function getLowerHalf() as MyBoundingBox {
