@@ -16,37 +16,10 @@ function drawDial(dc as Dc, seconds as Lang.Number) as MyBoundingBox {
     var ny = (cy + radius * Math.sin(angleRads)).toNumber();
     var box = MyBoundingBox.fromPoints(cx, cy, nx, ny);
     box.addMarginAll(4);
-    /*
-    var boxes = [] as Lang.Array<MyBoundingBox>;
-    var bradius = (radius / 4).toNumber();
-    var bx = cx;
-    var by = cy;
-    for (var i = 1; i < 5; i++) {
-        var sx = bx;
-        var sy = by;
-        bx = (cx + bradius * i * Math.cos(angleRads)).toNumber();
-        by = (cy + bradius * i * Math.sin(angleRads)).toNumber();
-        var b = MyBoundingBox.fromPoints(sx, sy, bx, by);
-        if (seconds < 7 || seconds > 52) {
-            b.addMargin(0, 5, 0, 5);
-        } else if (seconds >= 7 && seconds < 22) {
-            b.addMargin(5, 0, 5, 0);
-        } else if (seconds >= 22 && seconds < 37) {
-            b.addMargin(0, 5, 0, 5);
-        } else if (seconds >= 37) {
-            b.addMargin(5, 0, 5, 0);
-        }
-        boxes.add(b);
 
-        // Debug the draw boxes
-        // dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_GREEN);
-        // dc.drawRectangle(b.x, b.y, b.width, b.height);
-    }
-    */
     // dc.drawRectangle(box.x, box.y, box.width, box.height);
     dc.setPenWidth(2);
     dc.drawLine(cx, cy, nx, ny);
-    // box.addMargin(10);
     return box;
 }
 
