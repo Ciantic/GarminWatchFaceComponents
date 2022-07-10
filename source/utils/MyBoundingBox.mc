@@ -6,7 +6,6 @@ class MyBoundingBox {
     public var y as Lang.Number;
     public var width as Lang.Number;
     public var height as Lang.Number;
-    private var _onChange as Lang.Method?;
 
     public function initialize(
         x as Lang.Number,
@@ -18,10 +17,6 @@ class MyBoundingBox {
         self.y = y;
         self.width = width;
         self.height = height;
-    }
-
-    public function setOnChange(onChange as Lang.Method) as Void {
-        self._onChange = onChange;
     }
 
     public function toString() {
@@ -38,23 +33,6 @@ class MyBoundingBox {
         return x + y * 1000 + width * 1000000 + (height * 1000000 + 5000000);
     }
 
-    public static function fromDc(dc as Dc) as MyBoundingBox {
-        return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
-    }
-
-    public static function fromPoints(
-        x1 as Lang.Number,
-        y1 as Lang.Number,
-        x2 as Lang.Number,
-        y2 as Lang.Number
-    ) as MyBoundingBox {
-        var x = min(x1, x2);
-        var y = min(y1, y2);
-        var width = (x2 - x1).abs();
-        var height = (y2 - y1).abs();
-        return new MyBoundingBox(x, y, width, height);
-    }
-
     public function set(
         x as Lang.Number,
         y as Lang.Number,
@@ -65,13 +43,6 @@ class MyBoundingBox {
         self.y = y;
         self.width = width;
         self.height = height;
-
-        if (self._onChange != null) {
-            (self._onChange as Lang.Method).invoke(
-                new MyBoundingBox(self.x, self.y, self.width, self.height),
-                self
-            );
-        }
     }
 
     public function addMarginAll(n as Lang.Number) as Void {
@@ -175,7 +146,20 @@ class MyBoundingBox {
         return new MyBoundingBox(self.x, self.y, self.width, self.height / 2);
     }
 
-    public function setAsClip(dc as Dc) as Void {
-        dc.setClip(self.x, self.y, self.width, self.height);
+    public static function fromDc(dc as Dc) as MyBoundingBox {
+        return new MyBoundingBox(0, 0, dc.getWidth(), dc.getHeight());
+    }
+
+    public static function fromPoints(
+        x1 as Lang.Number,
+        y1 as Lang.Number,
+        x2 as Lang.Number,
+        y2 as Lang.Number
+    ) as MyBoundingBox {
+        var x = min(x1, x2);
+        var y = min(y1, y2);
+        var width = (x2 - x1).abs();
+        var height = (y2 - y1).abs();
+        return new MyBoundingBox(x, y, width, height);
     }
 }
