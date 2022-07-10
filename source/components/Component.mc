@@ -13,7 +13,7 @@ class Component {
     private var _id as Lang.Number;
     private var _bitmap as BufferedBitmapReference?;
     private var _boundingBox as MyBoundingBox;
-    protected var _invalid as Boolean?;
+    protected var _invalid as Boolean = true;
 
     public function initialize(boundingBox as MyBoundingBox) {
         componentId += 1;
@@ -52,7 +52,7 @@ class Component {
     public function update(time as Lang.Number) as Void {}
 
     public function isInvalid() as Boolean {
-        return self._invalid != null ? self._invalid : true;
+        return self._invalid;
     }
 
     public function getLastDrawArea() as MyBoundingBox {
