@@ -49,7 +49,7 @@ class Component {
         return bitmap;
     }
 
-    public function update(time as Lang.Number) as Void {}
+    public function update() as Void {}
 
     public function isInvalid() as Boolean {
         return self._invalid;

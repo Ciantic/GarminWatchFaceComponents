@@ -96,10 +96,9 @@ class Watch extends WatchUi.WatchFace {
             dc.clear();
         }
 
-        var now = System.getTimer();
         var componentLayer = self._componentLayer;
         if (componentLayer != null) {
-            componentLayer.update(now);
+            componentLayer.update();
             componentLayer.renderToView(dc, partial);
         }
     }

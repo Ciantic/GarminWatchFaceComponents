@@ -74,7 +74,7 @@ class DialSecondComponent extends Component {
         }
     }
 
-    public function update(time as Lang.Number) as Void {
+    public function update() as Void {
         var newSeconds = System.getClockTime().sec;
         if (self._seconds != newSeconds) {
             self._seconds = newSeconds;

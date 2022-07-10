@@ -19,10 +19,10 @@ class ComponentLayer extends Component {
         self._components.add(com);
     }
 
-    public function update(time as Lang.Number) as Void {
+    public function update() as Void {
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
-            com.update(time);
+            com.update();
         }
     }
 

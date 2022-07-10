@@ -13,7 +13,7 @@ class HoursComponent extends NumericComponent {
         NumericComponent.initialize(params);
     }
 
-    public function update(time as Lang.Number) as Void {
+    public function update() as Void {
         self.setValue(System.getClockTime().hour);
     }
 }
