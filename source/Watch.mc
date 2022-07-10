@@ -14,10 +14,10 @@ class Watch extends WatchUi.WatchFace {
     public function onLayout(dc as Dc) as Void {
         var dcArea = MyBoundingBox.fromDc(dc);
         var componentLayer = new ComponentLayer(dcArea);
+        var bottomLayer = new ComponentLayer(dcArea);
 
         var bg = new ImageComponent(dcArea);
-
-        var hoursCom = new HoursComponent({
+        var hours = new HoursComponent({
             :textSettings => {
                 :font => Graphics.FONT_NUMBER_THAI_HOT,
                 :justify => Graphics.TEXT_JUSTIFY_RIGHT,
@@ -25,7 +25,7 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_GREEN,
             },
         });
-        var minutesCom = new MinutesComponent({
+        var mins = new MinutesComponent({
             :textSettings => {
                 :font => Graphics.FONT_NUMBER_THAI_HOT,
                 :justify => (
@@ -35,47 +35,29 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_RED,
             },
         });
-        var secondsCom = new SecondsComponent({
+        var secs = new SecondsComponent({
             :textSettings => {
                 :font => Graphics.FONT_MEDIUM,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 :width => 30,
-                :foreground => Graphics.COLOR_BLUE,
-                // :background => Graphics.COLOR_YELLOW,
-            },
-        });
-        var secondsCom2 = new SecondsComponent({
-            :textSettings => {
-                :font => Graphics.FONT_MEDIUM,
-                :justify => Graphics.TEXT_JUSTIFY_CENTER,
-                :width => 30,
-                :foreground => Graphics.COLOR_BLUE,
-                // :background => Graphics.COLOR_YELLOW,
-            },
-        });
-        var secondsCom3 = new SecondsComponent({
-            :textSettings => {
-                :font => Graphics.FONT_MEDIUM,
-                :justify => Graphics.TEXT_JUSTIFY_CENTER,
-                :width => 30,
-                :foreground => Graphics.COLOR_BLUE,
+                // :foreground => Graphics.COLOR_BLUE,
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
         var secDial = new DialSecondComponent(dcArea);
-        hoursCom.getBoundingBox().setPosCenterRightJustify(dcArea);
-        minutesCom.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        secondsCom.getBoundingBox().setPosCenter(dcArea);
-        secondsCom2.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
-        secondsCom3.getBoundingBox().setPosCenter(dcArea.getUpperHalf());
-        // componentLayer.add(testCom);
-        componentLayer.add(bg);
-        // componentLayer.add(hoursCom);
-        // componentLayer.add(minutesCom);
-        // componentLayer.add(secondsCom);
+        hours.getBoundingBox().setPosCenterRightJustify(dcArea);
+        mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
+        secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
+
+        // Rarely changing can be combined to one layer, this saves just tiny
+        // bit in a bitmap combination
+        bottomLayer.add(bg);
+        bottomLayer.add(hours);
+        bottomLayer.add(mins);
+
+        componentLayer.add(bottomLayer);
         componentLayer.add(secDial);
-        // componentLayer.add(secondsCom2);
-        // componentLayer.add(secondsCom3);
+        // componentLayer.add(secs);
         self._componentLayer = componentLayer;
     }
 

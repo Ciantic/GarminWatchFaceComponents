@@ -43,7 +43,7 @@ function drawDial(dc as Dc, seconds as Lang.Number) as MyBoundingBox {
         // dc.drawRectangle(b.x, b.y, b.width, b.height);
     }
     */
-    dc.drawRectangle(box.x, box.y, box.width, box.height);
+    // dc.drawRectangle(box.x, box.y, box.width, box.height);
     dc.setPenWidth(2);
     dc.drawLine(cx, cy, nx, ny);
     // box.addMargin(10);
@@ -83,7 +83,6 @@ class DialSecondComponent extends Component {
     }
 
     public function getLastDrawArea() as MyBoundingBox {
-        System.println("Last secs " + self._lastSeconds);
         if (self._lastSeconds != null) {
             return self._drawAreas[self._lastSeconds];
         }
@@ -92,7 +91,7 @@ class DialSecondComponent extends Component {
 
     public function getBitmap() as BufferedBitmapReference? {
         if (self._seconds != null) {
-            self._secondBuffers[self._seconds as Lang.Number];
+            return self._secondBuffers[self._seconds as Lang.Number];
         }
         return null;
     }

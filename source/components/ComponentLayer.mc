@@ -45,7 +45,7 @@ class ComponentLayer extends Component {
 
         if (partial) {
             var drawArea = self.getLastDrawArea();
-            // log("Partial");
+            // log("Partial draw area " + drawArea);
             dc.setClip(drawArea.x, drawArea.y, drawArea.width, drawArea.height);
             dc.drawBitmap(0, 0, bitmap);
             dc.clearClip();
@@ -96,8 +96,6 @@ class ComponentLayer extends Component {
                     if (!uDrawnArea.isIntersecting(invalidArea)) {
                         continue;
                     }
-                    // bdc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_GREEN);
-                    // bdc.clear();
                     bdc.drawBitmap(uubox.x, uubox.y, ubit);
                     // log("Draw bg: " + " " + underneath.name + " " + uDrawnArea);
                 }
@@ -112,14 +110,16 @@ class ComponentLayer extends Component {
                 bdc.clearClip();
                 self._lastDrawArea.unionToSelf(invalidArea);
                 self._lastDrawArea.unionToSelf(comDrawnArea);
-                log(
-                    "Invalid " +
-                        invalidArea +
-                        " new " +
-                        comDrawnArea +
-                        " comb " +
-                        self._lastDrawArea
-                );
+                // log(
+                //     "Invalid " +
+                //         com.name +
+                //         " " +
+                //         invalidArea +
+                //         " new " +
+                //         comDrawnArea +
+                //         " comb " +
+                //         self._lastDrawArea
+                // );
             }
         }
     }
