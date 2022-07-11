@@ -8,7 +8,7 @@ class Watch extends WatchUi.WatchFace {
     private var _componentLayer as ComponentLayer?;
 
     public function initialize() {
-        WatchFace.initialize();
+        WatchUi.WatchFace.initialize();
     }
 
     public function onLayout(dc as Dc) as Void {
@@ -62,32 +62,24 @@ class Watch extends WatchUi.WatchFace {
         self._componentLayer = componentLayer;
     }
 
-    public function onShow() as Void {}
-    public function onHide() as Void {}
-
     public function onUpdate(dc as Dc) as Void {
+        GLOBAL_STATE.update();
         draw(dc, false);
     }
 
     public function onPartialUpdate(dc as Dc) as Void {
+        GLOBAL_STATE.updatePartial();
         draw(dc, true);
     }
+
+    public function onShow() as Void {}
+
+    public function onHide() as Void {}
 
     public function onExitSleep() as Void {}
 
     public function onEnterSleep() as Void {
         // WatchUi.requestUpdate();
-    }
-
-    public function onPowerBudgetExceeded(
-        powerInfo as WatchFacePowerInfo
-    ) as Void {
-        System.println(
-            "Average execution time: " + powerInfo.executionTimeAverage
-        );
-        System.println(
-            "Allowed execution time: " + powerInfo.executionTimeLimit
-        );
     }
 
     private function draw(dc as Dc, partial as Boolean) as Void {
@@ -96,20 +88,5 @@ class Watch extends WatchUi.WatchFace {
             componentLayer.update();
             componentLayer.renderToView(dc, partial);
         }
-    }
-}
-
-class WatchDelegate extends WatchUi.WatchFaceDelegate {
-    private var _view as Watch;
-
-    public function initialize(view as Watch) {
-        WatchFaceDelegate.initialize();
-        _view = view;
-    }
-
-    public function onPowerBudgetExceeded(
-        powerInfo as WatchFacePowerInfo
-    ) as Void {
-        _view.onPowerBudgetExceeded(powerInfo);
     }
 }

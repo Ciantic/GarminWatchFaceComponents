@@ -15,6 +15,6 @@ class SecondsComponent extends NumericComponent {
     }
 
     public function update() as Void {
-        self.setValue(System.getClockTime().sec);
+        self.setValue(GLOBAL_STATE.time.sec);
     }
 }

@@ -15,6 +15,6 @@ class MinutesComponent extends NumericComponent {
     }
 
     public function update() as Void {
-        self.setValue(System.getClockTime().min);
+        self.setValue(GLOBAL_STATE.time.min);
     }
 }

@@ -13,9 +13,7 @@ class App extends Application.AppBase {
 
     public function getInitialView() as Array<Views or InputDelegates>? {
         var view = new $.Watch();
-        var delegate = new $.WatchDelegate(view);
+        var delegate = new $.WatchFaceDelegate();
         return [view, delegate] as Array<Views or InputDelegates>;
-
-        // return [new $.Watch()] as Array<Views>;
     }
 }

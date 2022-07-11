@@ -14,6 +14,6 @@ class HoursComponent extends NumericComponent {
     }
 
     public function update() as Void {
-        self.setValue(System.getClockTime().hour);
+        self.setValue(GLOBAL_STATE.time.hour);
     }
 }
