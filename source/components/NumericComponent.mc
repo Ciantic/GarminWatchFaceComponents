@@ -11,10 +11,9 @@ typedef NumericSettings as {
         :textSettings as TextSettings,
     };
 
-class NumericComponent extends Component {
+class NumericComponent extends TextComponent {
     (:debug)
     public var name as Lang.String = "NumericComponent";
-    private var _textComponent as TextComponent;
     private var _format as Lang.String = "%d";
     private var _value as Lang.Number = 0;
 
@@ -37,30 +36,18 @@ class NumericComponent extends Component {
         var textSettings = params.get(:textSettings) as TextSettings;
         textSettings[:text] = value.format(self._format);
         textSettings[:strlen] = digits;
-        self._textComponent = new TextComponent(textSettings);
-        Component.initialize(self._textComponent.getBoundingBox());
+        TextComponent.initialize(textSettings);
     }
 
     public function setValue(newValue as Lang.Number) as Void {
         if (self._value != newValue) {
             self._value = newValue;
-            self._textComponent.setText(newValue.format(self._format));
+            self._invalid = true;
         }
     }
 
-    public function getBitmap() as BufferedBitmapReference? {
-        return self._textComponent.getBitmap();
-    }
-
-    public function getLastDrawArea() as MyBoundingBox {
-        return self._textComponent.getLastDrawArea();
-    }
-
-    public function isInvalid() as Boolean {
-        return self._textComponent.isInvalid();
-    }
-
-    public function render() as BufferedBitmapReference {
-        return self._textComponent.render();
+    protected function draw(dc as Dc) as Void {
+        self._text = self._value.format(self._format);
+        TextComponent.draw(dc);
     }
 }

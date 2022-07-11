@@ -18,7 +18,7 @@ typedef TextSettings as {
 class TextComponent extends Component {
     (:debug)
     public var name as Lang.String = "TextComponent";
-    private var _text as Lang.String;
+    protected var _text as Lang.String;
     private var _font as Graphics.FontType;
     private var _justify as Lang.Number;
     private var _foreground as Graphics.ColorType = Graphics.COLOR_WHITE;
