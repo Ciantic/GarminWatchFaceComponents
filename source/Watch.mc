@@ -28,9 +28,7 @@ class Watch extends WatchUi.WatchFace {
         var mins = new MinutesComponent({
             :textSettings => {
                 :font => Graphics.FONT_NUMBER_THAI_HOT,
-                :justify => (
-                    Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER
-                ) as Graphics.TextJustification,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
                 // :height => 90,
                 // :background => Graphics.COLOR_RED,
             },
@@ -45,16 +43,29 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
+
+        var hr = new HeartRateComponent({
+            :textSettings => {
+                :font => Graphics.FONT_TINY,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                // :width => 30,
+                // :height => 30,
+                // :foreground => Graphics.COLOR_BLUE,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
         // var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
+        hr.getBoundingBox().setPosCenter(dcArea.getUpperHalf());
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination
         bottomLayer.add(bg);
         bottomLayer.add(hours);
         bottomLayer.add(mins);
+        bottomLayer.add(hr);
 
         componentLayer.add(bottomLayer);
         // componentLayer.add(secDial);

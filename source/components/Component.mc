@@ -19,7 +19,6 @@ class Component {
         componentId += 1;
         self._id = componentId;
         self._boundingBox = boundingBox;
-        self._bitmap = null;
     }
 
     public function getBoundingBox() as MyBoundingBox {

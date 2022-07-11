@@ -3,30 +3,49 @@ import Toybox.WatchUi;
 import Toybox.Lang;
 
 class GlobalState {
-    public var time as System.ClockTime;
-    public var powerBudgetExceeded as Boolean = false;
-    public var executionTimeAverage as Lang.Float?;
-    public var executionTimeLimit as Lang.Float?;
+    private var _time as System.ClockTime;
+    private var _powerBudgetInfo as WatchFacePowerInfo?;
+    private var _activity as Toybox.Activity.Info?;
 
     public function initialize() {
-        self.time = System.getClockTime();
+        self._time = System.getClockTime();
     }
 
     public function update() as Void {
-        self.time = System.getClockTime();
+        self._time = System.getClockTime();
+        self._activity = Activity.getActivityInfo();
+        // var monitor = ActivityMonitor.getInfo();
+        ActivityMonitor.getHeartRateHistory(new Time.Duration(3600), true);
     }
 
     public function updatePartial() as Void {
-        self.time = System.getClockTime();
+        self._time = System.getClockTime();
+    }
+
+    public function getClockTime() as System.ClockTime {
+        return self._time;
+    }
+
+    public function getLastHeartRate() as Lang.Number {
+        var activity = self._activity;
+        if (activity != null) {
+            var hr = activity.currentHeartRate;
+            if (hr != null) {
+                return hr;
+            }
+        }
+        return 0;
+    }
+
+    public function getPowerBudgetExceededInfo() as WatchFacePowerInfo? {
+        return self._powerBudgetInfo;
     }
 
     public function onPowerBudgetExceeded(
         powerInfo as WatchFacePowerInfo
     ) as Void {
-        self.powerBudgetExceeded = true;
-        self.executionTimeAverage = powerInfo.executionTimeAverage;
-        self.executionTimeLimit = powerInfo.executionTimeLimit;
+        self._powerBudgetInfo = powerInfo;
     }
 }
 
-var GLOBAL_STATE as GlobalState = new GlobalState();
+const GLOBAL_STATE as GlobalState = new GlobalState() as GlobalState;
