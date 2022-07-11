@@ -1,32 +1,34 @@
 import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Lang;
+import Toybox.Activity;
+import Toybox.ActivityMonitor;
+import Toybox.Time;
 
-class GlobalState {
-    private var _time as System.ClockTime;
-    private var _powerBudgetInfo as WatchFacePowerInfo?;
-    private var _activity as Toybox.Activity.Info?;
+// VSCode's go to defintion/find references between files works with modules but
+// not with classes, thus I chose module for the global state.
 
-    public function initialize() {
-        self._time = System.getClockTime();
-    }
+module GLOBAL_STATE {
+    var _time as System.ClockTime = System.getClockTime();
+    var _powerBudgetInfo as WatchFacePowerInfo? = null;
+    var _activity as Toybox.Activity.Info? = null;
 
-    public function update() as Void {
+    function update() as Void {
         self._time = System.getClockTime();
         self._activity = Activity.getActivityInfo();
         // var monitor = ActivityMonitor.getInfo();
         ActivityMonitor.getHeartRateHistory(new Time.Duration(3600), true);
     }
 
-    public function updatePartial() as Void {
+    function updatePartial() as Void {
         self._time = System.getClockTime();
     }
 
-    public function getClockTime() as System.ClockTime {
+    function getClockTime() as System.ClockTime {
         return self._time;
     }
 
-    public function getLastHeartRate() as Lang.Number {
+    function getLastHeartRate() as Lang.Number {
         var activity = self._activity;
         if (activity != null) {
             var hr = activity.currentHeartRate;
@@ -37,15 +39,11 @@ class GlobalState {
         return 0;
     }
 
-    public function getPowerBudgetExceededInfo() as WatchFacePowerInfo? {
+    function getPowerBudgetExceededInfo() as WatchFacePowerInfo? {
         return self._powerBudgetInfo;
     }
 
-    public function onPowerBudgetExceeded(
-        powerInfo as WatchFacePowerInfo
-    ) as Void {
+    function onPowerBudgetExceeded(powerInfo as WatchFacePowerInfo) as Void {
         self._powerBudgetInfo = powerInfo;
     }
 }
-
-const GLOBAL_STATE as GlobalState = new GlobalState() as GlobalState;
