@@ -7,4 +7,4 @@ function log(message as Lang.String) as Void {
 }
 
 (:inline,:release)
-function log(message as Lang.String) {}
+function log(message as Lang.String) as Void {}

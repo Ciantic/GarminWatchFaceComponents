@@ -45,7 +45,7 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
-        var secDial = new DialSecondComponent(dcArea);
+        // var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
@@ -57,8 +57,8 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(mins);
 
         componentLayer.add(bottomLayer);
-        componentLayer.add(secDial);
-        // componentLayer.add(secs);
+        // componentLayer.add(secDial);
+        componentLayer.add(secs);
         self._componentLayer = componentLayer;
     }
 

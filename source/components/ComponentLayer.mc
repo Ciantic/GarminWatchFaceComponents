@@ -90,7 +90,7 @@ class ComponentLayer extends Component {
                 var uBitmap = underneath.getBitmap();
 
                 if (uBitmap == null) {
-                    log("Unknown: " + underneath.name + " no bitmap");
+                    log("Unknown: no bitmap");
                     continue;
                 }
                 if (!uBox.isIntersecting(comInvalidArea)) {

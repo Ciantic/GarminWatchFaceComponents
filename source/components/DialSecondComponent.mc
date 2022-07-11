@@ -35,6 +35,7 @@ class DialSecondComponent extends Component {
         Component.initialize(box);
         self._secondBuffers = [] as Lang.Array<BufferedBitmapReference>;
         self._drawAreas = [] as Lang.Array<MyBoundingBox>;
+        // This approach works in SIM but not in a device, maybe too many bitmaps?
         for (var i = 0; i < 60; i++) {
             var buffer = Graphics.createBufferedBitmap({
                 :width => box.width,
