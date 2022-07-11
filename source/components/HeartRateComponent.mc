@@ -10,6 +10,7 @@ class HeartRateComponent extends NumericComponent {
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
+        params[:digits] = 3;
         params[:format] = "%d";
         NumericComponent.initialize(params);
     }

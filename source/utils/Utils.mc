@@ -17,3 +17,8 @@ function min(a as Lang.Number, b as Lang.Number) as Lang.Number {
         return b;
     }
 }
+
+function getFontWidth(font as Graphics.FontType) as Lang.Number {
+    // 0.7 is guestimate, because there is no native getFontWidth
+    return (Graphics.getFontAscent(font) * 0.7).toNumber();
+}

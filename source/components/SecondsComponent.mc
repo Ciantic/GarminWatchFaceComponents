@@ -10,6 +10,7 @@ class SecondsComponent extends NumericComponent {
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
+        params[:digits] = 2;
         params[:format] = "%02d";
         NumericComponent.initialize(params);
     }

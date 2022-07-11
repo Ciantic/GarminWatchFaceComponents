@@ -59,8 +59,7 @@ class TextComponent extends Component {
         var fontHeight = Graphics.getFontHeight(font);
         var width = params.get(:width) as Lang.Number?;
         if (width == null) {
-            // 0.7 is estimation
-            width = fontHeight * strlen;
+            width = getFontWidth(font) * strlen;
         }
 
         var height = params.get(:height) as Lang.Number?;

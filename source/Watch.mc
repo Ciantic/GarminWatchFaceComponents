@@ -35,18 +35,19 @@ class Watch extends WatchUi.WatchFace {
         });
         var secs = new SecondsComponent({
             :textSettings => {
-                :font => Graphics.FONT_TINY,
+                :font => Graphics.FONT_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
                 // :foreground => Graphics.COLOR_BLUE,
-                // :background => Graphics.COLOR_YELLOW,
+                // :background => Graphics.COLOR_RED,
             },
         });
+        var debug = new DebugComponent();
 
         var hr = new HeartRateComponent({
             :textSettings => {
-                :font => Graphics.FONT_TINY,
+                :font => Graphics.FONT_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
@@ -58,17 +59,21 @@ class Watch extends WatchUi.WatchFace {
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
-        hr.getBoundingBox().setPosCenter(dcArea.getUpperHalf());
+        hr.getBoundingBox().setPosCenter(dcArea.getLowerHalf().getLowerHalf());
+        debug
+            .getBoundingBox()
+            .setPosCenter(dcArea.getUpperHalf().getUpperHalf());
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination
         bottomLayer.add(bg);
         bottomLayer.add(hours);
         bottomLayer.add(mins);
-        bottomLayer.add(hr);
+        bottomLayer.add(debug);
 
         componentLayer.add(bottomLayer);
         // componentLayer.add(secDial);
+        componentLayer.add(hr);
         componentLayer.add(secs);
         self._componentLayer = componentLayer;
     }
@@ -83,13 +88,20 @@ class Watch extends WatchUi.WatchFace {
         draw(dc, true);
     }
 
-    public function onShow() as Void {}
+    public function onShow() as Void {
+        GLOBAL_STATE.onShow();
+    }
 
-    public function onHide() as Void {}
+    public function onHide() as Void {
+        GLOBAL_STATE.onHide();
+    }
 
-    public function onExitSleep() as Void {}
+    public function onExitSleep() as Void {
+        GLOBAL_STATE.onExitSleep();
+    }
 
     public function onEnterSleep() as Void {
+        GLOBAL_STATE.onEnterSleep();
         // WatchUi.requestUpdate();
     }
 

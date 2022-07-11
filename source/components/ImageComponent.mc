@@ -13,7 +13,7 @@ class ImageComponent extends Component {
     }
 
     protected function draw(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_DK_GREEN);
+        dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
         dc.clear();
         // // dc.setFill(Graphics.COLOR_RED);
         // dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_RED);
