@@ -10,8 +10,6 @@ import Toybox.Math;
 // not with classes, thus I chose module for the global state.
 
 module GLOBAL_STATE {
-    var _fullUpdate as System.ClockTime = System.getClockTime();
-
     var _lastUpdateTime as System.ClockTime = System.getClockTime();
     var _time as System.ClockTime = System.getClockTime();
     var _powerBudgetInfo as WatchFacePowerInfo? = null;
