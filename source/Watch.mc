@@ -19,7 +19,7 @@ class Watch extends WatchUi.WatchFace {
         var bg = new ImageComponent(dcArea);
         var hours = new HoursComponent({
             :textSettings => {
-                :font => Graphics.FONT_NUMBER_THAI_HOT,
+                :font => Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
                 :justify => Graphics.TEXT_JUSTIFY_RIGHT,
                 // :height => 90,
                 // :background => Graphics.COLOR_GREEN,
@@ -27,7 +27,7 @@ class Watch extends WatchUi.WatchFace {
         });
         var mins = new MinutesComponent({
             :textSettings => {
-                :font => Graphics.FONT_NUMBER_THAI_HOT,
+                :font => Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
                 :justify => Graphics.TEXT_JUSTIFY_LEFT,
                 // :height => 90,
                 // :background => Graphics.COLOR_RED,
@@ -35,7 +35,7 @@ class Watch extends WatchUi.WatchFace {
         });
         var secs = new SecondsComponent({
             :textSettings => {
-                :font => Graphics.FONT_XTINY,
+                :font => Graphics.FONT_SYSTEM_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
@@ -47,7 +47,7 @@ class Watch extends WatchUi.WatchFace {
 
         var hr = new HeartRateComponent({
             :textSettings => {
-                :font => Graphics.FONT_XTINY,
+                :font => Graphics.FONT_SYSTEM_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
@@ -55,7 +55,7 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
-        // var secDial = new DialSecondComponent(dcArea);
+        var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
@@ -72,9 +72,9 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(debug);
 
         componentLayer.add(bottomLayer);
-        // componentLayer.add(secDial);
-        componentLayer.add(hr);
-        componentLayer.add(secs);
+        // componentLayer.add(hr);
+        // componentLayer.add(secs);
+        componentLayer.add(secDial);
         self._componentLayer = componentLayer;
     }
 
