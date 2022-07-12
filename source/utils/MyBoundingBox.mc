@@ -101,6 +101,13 @@ class MyBoundingBox {
         );
     }
 
+    public function setPosBottomCenter(boundingBox as MyBoundingBox) as Void {
+        self.setPos(
+            boundingBox.x + boundingBox.width / 2 - self.width / 2,
+            boundingBox.height - self.height
+        );
+    }
+
     public function setPosCenter(boundingBox as MyBoundingBox) as Void {
         self.setPos(
             boundingBox.x + boundingBox.width / 2 - self.width / 2,

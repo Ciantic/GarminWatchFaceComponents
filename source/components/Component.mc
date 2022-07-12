@@ -26,20 +26,12 @@ class Component {
     }
 
     public function render() as BufferedBitmapReference {
-        var bitmap = self._bitmap as BufferedBitmapReference;
-        if (bitmap == null) {
-            bitmap = Graphics.createBufferedBitmap({
-                :width => self._boundingBox.width,
-                :height => self._boundingBox.height,
-            });
-            self._bitmap = bitmap;
-        }
-
+        var bitmap = self.getBitmap();
         if (self.isInvalid()) {
-            var ref = (bitmap != null ? bitmap.get() : null) as BufferedBitmap?;
+            var ref = bitmap.get() as BufferedBitmap?;
             var bdc = ref != null ? ref.getDc() : null;
             if (bdc == null) {
-                System.println("Unknown: Dc was not fetched");
+                log("Unknown: Dc was not fetched");
                 return bitmap;
             }
             draw(bdc);
@@ -58,8 +50,16 @@ class Component {
         return self._boundingBox;
     }
 
-    public function getBitmap() as BufferedBitmapReference? {
-        return self._bitmap;
+    public function getBitmap() as BufferedBitmapReference {
+        var bitmap = self._bitmap as BufferedBitmapReference;
+        if (bitmap == null) {
+            bitmap = Graphics.createBufferedBitmap({
+                :width => self._boundingBox.width,
+                :height => self._boundingBox.height,
+            });
+            self._bitmap = bitmap;
+        }
+        return bitmap;
     }
 
     protected function draw(dc as Dc) as Void {

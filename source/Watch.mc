@@ -55,11 +55,13 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
+        var hrgraph = new HeartRateGraphComponent(dcArea.getLowerHalf());
         var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
         hr.getBoundingBox().setPosCenter(dcArea.getLowerHalf().getLowerHalf());
+        hrgraph.getBoundingBox().setPosBottomCenter(dcArea);
         debug
             .getBoundingBox()
             .setPosCenter(dcArea.getUpperHalf().getUpperHalf());
@@ -67,14 +69,15 @@ class Watch extends WatchUi.WatchFace {
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination
         bottomLayer.add(bg);
+        bottomLayer.add(hrgraph);
         bottomLayer.add(hours);
         bottomLayer.add(mins);
         bottomLayer.add(debug);
 
         componentLayer.add(bottomLayer);
-        // componentLayer.add(hr);
-        // componentLayer.add(secs);
-        componentLayer.add(secDial);
+        componentLayer.add(hr);
+        componentLayer.add(secs);
+        // componentLayer.add(secDial);
         self._componentLayer = componentLayer;
     }
 

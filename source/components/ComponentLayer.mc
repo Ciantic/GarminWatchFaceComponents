@@ -63,9 +63,32 @@ class ComponentLayer extends Component {
 
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
+            // As soon as any of the components is invalid, the ones coming
+            // after it needs to be also re-rendered.
             if (!com.isInvalid()) {
+                // lastDrawArea is set, then render the component on foreground
+                // of it too
+                if (lastDrawArea.width != 0) {
+                    var comBox = com.getBoundingBox();
+                    if (!lastDrawArea.isIntersecting(comBox)) {
+                        continue;
+                    }
+                    var comBitmap = com.getBitmap();
+                    if (comBitmap == null) {
+                        log("Unknown: Combitmap was not fetched");
+                        continue;
+                    }
+                    bdc.setClip(
+                        lastDrawArea.x,
+                        lastDrawArea.y,
+                        lastDrawArea.width,
+                        lastDrawArea.height
+                    );
+                    bdc.drawBitmap(comBox.x, comBox.y, comBitmap);
+                }
                 continue;
             }
+
             var comInvalidArea = com.getLastDrawArea();
             var comBitmap = com.render();
             var comDrawnArea = com.getLastDrawArea();
@@ -97,7 +120,7 @@ class ComponentLayer extends Component {
                     continue;
                 }
                 bdc.drawBitmap(uBox.x, uBox.y, uBitmap);
-                // log("Draw bg: " + underneath.name + " bit " + invalidArea);
+                // log("Draw bg: " + underneath.name + " bit " + comInvalidArea);
             }
 
             bdc.setClip(
@@ -115,7 +138,7 @@ class ComponentLayer extends Component {
             //     "Invalid " +
             //         com.name +
             //         " " +
-            //         invalidArea +
+            //         comInvalidArea +
             //         " new " +
             //         comDrawnArea +
             //         " comb " +
