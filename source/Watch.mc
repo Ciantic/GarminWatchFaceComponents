@@ -8,7 +8,7 @@ class Watch extends WatchUi.WatchFace {
     private var _componentLayer as ComponentLayer?;
 
     public function initialize() {
-        WatchUi.WatchFace.initialize();
+        WatchFace.initialize();
     }
 
     public function onLayout(dc as Dc) as Void {
@@ -55,13 +55,17 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
-        var hrgraph = new HeartRateGraphComponent(dcArea.getLowerHalf());
+        var hrgraph = new HeartRateGraphComponent(
+            // For round watches, the right most part is not useful for heart
+            // rate graphs, split it away (90% mark of screen area)
+            dcArea.getLowerHalf().getSlicePerOfWidth(90)
+        );
         var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
         hr.getBoundingBox().setPosCenter(dcArea.getLowerHalf().getLowerHalf());
-        hrgraph.getBoundingBox().setPosBottomCenter(dcArea);
+        hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
         debug
             .getBoundingBox()
             .setPosCenter(dcArea.getUpperHalf().getUpperHalf());

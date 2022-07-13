@@ -10,20 +10,33 @@ import Toybox.Math;
 // not with classes, thus I chose module for the global state.
 
 module GLOBAL_STATE {
+    var _initialized as System.ClockTime = System.getClockTime();
+    var _layoutTime as System.ClockTime = System.getClockTime();
     var _lastUpdateTime as System.ClockTime = System.getClockTime();
     var _time as System.ClockTime = System.getClockTime();
     var _powerBudgetInfo as WatchFacePowerInfo? = null;
     var _activity as Activity.Info? = null;
     var _isSleeping as Boolean = false;
     var _isHidden as Boolean = false;
+    var _fromLayout as Number = 0;
+    var _isUpdate as Boolean = false;
+    var _isPartialUpdate as Boolean = false;
+    var _now as Time.Moment = Time.now();
 
     function update() as Void {
+        self._isUpdate = true;
+        self._isPartialUpdate = false;
         self._time = System.getClockTime();
         self._lastUpdateTime = self._time;
+        self._fromLayout += 1;
         self._updateActivity();
+        self._now = Time.now();
     }
 
     function updatePartial() as Void {
+        self._isUpdate = false;
+        self._isPartialUpdate = true;
+        self._now = Time.now();
         self._time = System.getClockTime();
         // Update activity data every 5th second?
         if (self._time.sec % 5 == 0) {
@@ -32,12 +45,20 @@ module GLOBAL_STATE {
     }
 
     // Getters
-
+    function getNow() as Time.Moment {
+        return self._now;
+    }
     function getClockTime() as System.ClockTime {
         return self._time;
     }
     function getLastUpdateTime() as System.ClockTime {
         return self._lastUpdateTime;
+    }
+    function getInitializeTime() as System.ClockTime {
+        return self._initialized;
+    }
+    function getLayoutTime() as System.ClockTime {
+        return self._layoutTime;
     }
 
     function getLastHeartRate() as Lang.Number {
@@ -61,6 +82,18 @@ module GLOBAL_STATE {
 
     function isHidden() as Boolean {
         return self._isHidden;
+    }
+
+    function afterLayoutInSecs(nth as Lang.Number) as Boolean {
+        return self._isUpdate && self._fromLayout > nth;
+    }
+
+    function isUpdate() as Boolean {
+        return self._isUpdate;
+    }
+
+    function isUpdateEven() as Boolean {
+        return self._isUpdate && self._time.sec == 0;
     }
 
     // Internal setters
@@ -98,5 +131,10 @@ module GLOBAL_STATE {
 
     function onHide() as Void {
         self._isHidden = true;
+    }
+
+    function onLayout() as Void {
+        self._fromLayout = 0;
+        self._layoutTime = System.getClockTime();
     }
 }

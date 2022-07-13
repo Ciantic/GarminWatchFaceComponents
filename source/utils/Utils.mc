@@ -22,3 +22,14 @@ function getFontWidth(font as Graphics.FontType) as Lang.Number {
     // 0.7 is guestimate, because there is no native getFontWidth
     return (Graphics.getFontAscent(font) * 0.7).toNumber();
 }
+
+function formatClocktime(time as ClockTime) as String {
+    return (
+        "" +
+        time.hour +
+        ":" +
+        time.min.format("%02d") +
+        ":" +
+        time.sec.format("%02d")
+    );
+}

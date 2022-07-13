@@ -5,10 +5,16 @@ import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.ActivityMonitor;
 
+enum HRGDrawState {
+    InitialLayout,
+    InitialLayoutDone,
+    DrawGraph,
+    DrawMissingSamples,
+}
 class HeartRateGraphComponent extends Component {
     (:debug)
     public var name as Lang.String = "HeartRateGraphComponent";
-    private var _graphDrawn as Boolean = false;
+    private var _drawState as HRGDrawState = InitialLayout;
     private var _bitmap2 as BufferedBitmapReference?;
     private var _lastWhen as Time.Moment?;
 
@@ -26,31 +32,35 @@ class HeartRateGraphComponent extends Component {
     }
 
     public function update() as Void {
-        // Update on even minutes (onUpdate)
-        if (!self._graphDrawn || GLOBAL_STATE.getClockTime().sec == 0) {
+        if (
+            self._drawState == DrawMissingSamples &&
+            GLOBAL_STATE.isUpdateEven()
+        ) {
+            self._invalid = true;
+        } else if (self._drawState == InitialLayout) {
+            self._invalid = true;
+        } else if (
+            self._drawState == DrawGraph &&
+            GLOBAL_STATE.afterLayoutInSecs(3)
+        ) {
             self._invalid = true;
         }
     }
 
     (:release)
     private function getHistory(
-        mins as Lang.Number
+        dur as Time.Duration
     ) as ActivityMonitor.HeartRateIterator {
-        return ActivityMonitor.getHeartRateHistory(
-            new Time.Duration(60 * mins),
-            true
-        );
+        return ActivityMonitor.getHeartRateHistory(dur, true);
     }
 
     (:debug)
     private function getHistory(
-        mins as Lang.Number
+        dur as Time.Duration
     ) as ActivityMonitor.HeartRateIterator {
         return (
-            MockActivityMonitor.getHeartRateHistory(
-                new Time.Duration(60 * mins),
-                true
-            ) as ActivityMonitor.HeartRateIterator
+            MockActivityMonitor.getHeartRateHistory(dur, true) as
+            ActivityMonitor.HeartRateIterator
         );
     }
 
@@ -83,13 +93,21 @@ class HeartRateGraphComponent extends Component {
     }
 
     protected function draw(dc as Dc) as Void {
-        self._invalid = false;
-        if (!self._graphDrawn) {
-            self.drawGraph(dc);
-            self._graphDrawn = true;
-        } else {
-            self.drawMissingSamples(dc);
+        switch (self._drawState) {
+            case DrawMissingSamples:
+                self.drawMissingSamples(dc);
+                break;
+            case InitialLayout:
+                self.drawInitialLayout(dc);
+                self._drawState = DrawGraph;
+                break;
+            case DrawGraph:
+                self.drawGraph(dc);
+                self._drawState = DrawMissingSamples;
+                break;
         }
+
+        Component.draw(dc);
     }
 
     private function moveDrawingToLeft(dc as Dc, x as Lang.Number) as Void {
@@ -127,19 +145,28 @@ class HeartRateGraphComponent extends Component {
         dc.drawBitmap(0, 0, bit2);
     }
 
-    private function drawMissingSamples(dc as Dc) as Void {
+    private function drawInitialLayout(dc as Dc) as Void {
         var box = self.getBoundingBox();
-        var hrIterator = self.getHistory(box.width);
-        if (hrIterator == null) {
-            self._invalid = false;
-            return;
-        }
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
+        dc.setClip(0, box.height - 50, box.width, 50);
+        dc.clear();
+        dc.clearClip();
+    }
 
+    private function drawMissingSamples(dc as Dc) as Void {
         var lastWhen = self._lastWhen;
         if (lastWhen == null) {
             return;
         }
 
+        var elapsed = GLOBAL_STATE.getNow().subtract(lastWhen) as Time.Duration;
+        var hrIterator = self.getHistory(elapsed);
+        if (hrIterator == null) {
+            self._invalid = false;
+            return;
+        }
+
+        var box = self.getBoundingBox();
         var newLastWhen = null as Time.Moment?;
         var samples = [] as Lang.Array<Lang.Number>;
         for (var i = 0; i < box.width; i++) {
@@ -185,7 +212,7 @@ class HeartRateGraphComponent extends Component {
 
     private function drawGraph(dc as Dc) as Void {
         var box = self.getBoundingBox();
-        var hrIterator = self.getHistory(box.width);
+        var hrIterator = self.getHistory(new Time.Duration(box.width * 60));
         if (hrIterator == null) {
             self._invalid = false;
             return;

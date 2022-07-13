@@ -108,6 +108,10 @@ class MyBoundingBox {
         );
     }
 
+    public function setPosBottomLeft(boundingBox as MyBoundingBox) as Void {
+        self.setPos(boundingBox.x, boundingBox.height - self.height);
+    }
+
     public function setPosCenter(boundingBox as MyBoundingBox) as Void {
         self.setPos(
             boundingBox.x + boundingBox.width / 2 - self.width / 2,
@@ -161,6 +165,17 @@ class MyBoundingBox {
 
     public function getUpperHalf() as MyBoundingBox {
         return new MyBoundingBox(self.x, self.y, self.width, self.height / 2);
+    }
+
+    public function getSlicePerOfWidth(
+        percentage as Lang.Number
+    ) as MyBoundingBox {
+        return new MyBoundingBox(
+            self.x,
+            self.y,
+            (self.width * (percentage / 100.0)).toNumber(),
+            self.height
+        );
     }
 
     public static function fromDc(dc as Dc) as MyBoundingBox {
