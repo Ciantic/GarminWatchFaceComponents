@@ -32,7 +32,9 @@ module GLOBAL_STATE {
         self._fromLayout += 1;
         self._now = Time.now();
         self._updateActivity();
-        // self._updateActivityMonitorInfo();
+        if (self.onceInUpdate()) {
+            self._updateActivityMonitorInfo();
+        }
     }
 
     function updatePartial() as Void {
