@@ -64,7 +64,8 @@ class TextComponent extends Component {
 
         var height = params.get(:height) as Lang.Number?;
         if (height == null) {
-            height = fontHeight;
+            var newLines = strCountOccurrences(text, "\n") + 1;
+            height = fontHeight * newLines;
         }
 
         self._justify = justify;

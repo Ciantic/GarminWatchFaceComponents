@@ -18,9 +18,11 @@ class MockHeartRateSample {
 class MockHeartRateIterator {
     private var _i as Lang.Number = 0;
     private var _period as Time.Duration;
+    private var _start as Time.Moment;
 
     function initialize(period as Time.Duration) {
         self._period = period;
+        self._start = Time.now();
     }
 
     public function getMax() as Lang.Number? {
@@ -34,8 +36,12 @@ class MockHeartRateIterator {
     public function next() as MockHeartRateSample {
         self._i++;
         var duration = (new Time.Duration(60)).multiply(self._i);
-        var moment = Time.now().subtract(duration) as Time.Moment;
-        return new MockHeartRateSample(Math.rand() % 150, moment);
+        var moment = self._start.subtract(duration) as Time.Moment;
+        var hr = 50 + (Math.rand() % 10);
+        if (self._i > 60 && self._i < 100) {
+            hr = self._i + (Math.rand() % 10);
+        }
+        return new MockHeartRateSample(hr, moment);
     }
 }
 

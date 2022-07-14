@@ -66,9 +66,7 @@ class Watch extends WatchUi.WatchFace {
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
         hr.getBoundingBox().setPosCenter(dcArea.getLowerHalf().getLowerHalf());
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
-        debug
-            .getBoundingBox()
-            .setPosCenter(dcArea.getUpperHalf().getUpperHalf());
+        debug.getBoundingBox().setPosTopCenter(dcArea);
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination

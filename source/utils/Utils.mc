@@ -1,3 +1,4 @@
+import Toybox.Test;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
@@ -32,4 +33,32 @@ function formatClocktime(time as ClockTime) as String {
         ":" +
         time.sec.format("%02d")
     );
+}
+
+function strCountOccurrences(str as String, occur as String) as Lang.Number {
+    var count = 0;
+    var occurIndex;
+    while (true) {
+        occurIndex = str.find(occur);
+        if (occurIndex == null) {
+            break;
+        }
+        count += 1;
+        str = str.substring(occurIndex + 1, null);
+    }
+    return count;
+}
+
+(:test)
+function test_StrCountOccurrences(logger as Logger) as Boolean {
+    var str = "first line\nsecond line\nthird line";
+    var count = strCountOccurrences(str, "\n");
+    return count == 2;
+}
+
+(:test)
+function test_StrCountOccurrences2(logger as Logger) as Boolean {
+    var str = "I don't have any";
+    var count = strCountOccurrences(str, "foo");
+    return count == 0;
 }

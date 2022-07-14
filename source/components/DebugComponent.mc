@@ -8,12 +8,14 @@ class DebugComponent extends TextComponent {
     public function initialize() {
         var params = {
             :font => Graphics.FONT_XTINY,
-            :justify => Graphics.TEXT_JUSTIFY_CENTER,
-            :text => "00:00:00 00.00 00.00",
+            :justify => (
+                Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+            ) as Graphics.TextJustification,
+            :text => "00:00:00 00.00 00.00\n00:00:00\n00:00:00\n00:00:00",
             // :width => 30,
-            :height => 70,
+            // :height => 70,
             // :foreground => Graphics.COLOR_BLUE,
-            // :background => Graphics.COLOR_YELLOW,
+            :background => Graphics.COLOR_YELLOW,
         };
         TextComponent.initialize(params);
     }
