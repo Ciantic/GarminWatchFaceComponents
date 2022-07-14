@@ -7,7 +7,7 @@ class MockActivityInfo {
     public var altitude as Lang.Number = 0;
 
     function update() as Void {
-        self.currentHeartRate = Math.rand() % 130;
+        self.currentHeartRate = 50 + (Math.rand() % 60);
         self.altitude = 1000 + (Math.rand() % 1000);
     }
 }

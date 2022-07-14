@@ -15,6 +15,18 @@ class MockHeartRateSample {
 }
 
 (:debug)
+class MockActivityMonitorInfo {
+    public var calories as Lang.Number = 1892;
+    public var steps as Lang.Number = 1402;
+    public var stepGoal as Lang.Number = 5120;
+
+    function initialize(mockCount as Lang.Number) {
+        self.steps += mockCount;
+        self.calories += mockCount * 20;
+    }
+}
+
+(:debug)
 class MockHeartRateIterator {
     private var _i as Lang.Number = 0;
     private var _period as Time.Duration;
@@ -47,10 +59,17 @@ class MockHeartRateIterator {
 
 (:debug)
 module MockActivityMonitor {
+    var _infoCallCount as Lang.Number = 0;
+
     function getHeartRateHistory(
         period as Time.Duration /*or Lang.Number or Null,*/,
         newestFirst as Lang.Boolean
-    ) as HeartRateIterator {
-        return new MockHeartRateIterator(period) as HeartRateIterator;
+    ) as MockHeartRateIterator {
+        return new MockHeartRateIterator(period);
+    }
+
+    function getInfo() as MockActivityMonitorInfo {
+        self._infoCallCount += 1;
+        return new MockActivityMonitorInfo(self._infoCallCount);
     }
 }

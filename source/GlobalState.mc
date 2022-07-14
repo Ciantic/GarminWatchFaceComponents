@@ -16,6 +16,7 @@ module GLOBAL_STATE {
     var _time as System.ClockTime = System.getClockTime();
     var _powerBudgetInfo as WatchFacePowerInfo? = null;
     var _activity as Activity.Info? = null;
+    var _activityMonitorInfo as ActivityMonitor.Info? = null;
     var _isSleeping as Boolean = false;
     var _isHidden as Boolean = false;
     var _fromLayout as Number = 0;
@@ -29,8 +30,9 @@ module GLOBAL_STATE {
         self._time = System.getClockTime();
         self._lastUpdateTime = self._time;
         self._fromLayout += 1;
-        self._updateActivity();
         self._now = Time.now();
+        self._updateActivity();
+        // self._updateActivityMonitorInfo();
     }
 
     function updatePartial() as Void {
@@ -72,6 +74,17 @@ module GLOBAL_STATE {
         return 0;
     }
 
+    function getSteps() as Lang.Number {
+        var activity = self._activityMonitorInfo;
+        if (activity != null) {
+            var steps = activity.steps;
+            if (steps != null) {
+                return steps;
+            }
+        }
+        return 0;
+    }
+
     function getPowerBudgetExceededInfo() as WatchFacePowerInfo? {
         return self._powerBudgetInfo;
     }
@@ -88,12 +101,12 @@ module GLOBAL_STATE {
         return self._isUpdate && self._fromLayout > nth;
     }
 
-    function isUpdate() as Boolean {
-        return self._isUpdate;
-    }
+    // function isUpdate() as Boolean {
+    //     return self._isUpdate;
+    // }
 
-    function isUpdateEven() as Boolean {
-        return self._isUpdate && self._time.sec == 0;
+    function onceInUpdate() as Boolean {
+        return self._fromLayout == 1 || (self._isUpdate && self._time.sec == 0);
     }
 
     // Internal setters
@@ -109,6 +122,17 @@ module GLOBAL_STATE {
         } else {
             (self._activity as MockActivityInfo).update();
         }
+    }
+
+    (:release)
+    function _updateActivityMonitorInfo() as Void {
+        self._activityMonitorInfo = ActivityMonitor.getInfo();
+    }
+
+    (:debug)
+    function _updateActivityMonitorInfo() as Void {
+        self._activityMonitorInfo =
+            MockActivityMonitor.getInfo() as ActivityMonitor.Info;
     }
 
     // External setters

@@ -55,16 +55,29 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
+        var steps = new StepsComponent({
+            :textSettings => {
+                :font => Graphics.FONT_SYSTEM_XTINY,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                // :width => 30,
+                // :height => 30,
+                // :foreground => Graphics.COLOR_BLUE,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
         var hrgraph = new HeartRateGraphComponent(
             // For round watches, the right most part is not useful for heart
             // rate graphs, split it away (90% mark of screen area)
             dcArea.getLowerHalf().getSlicePerOfWidth(90)
         );
-        var secDial = new DialSecondComponent(dcArea);
+        // var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
-        hr.getBoundingBox().setPosCenter(dcArea.getLowerHalf().getLowerHalf());
+        hr.getBoundingBox().setPosCenter(
+            dcArea.getLowerHalf().getLowerHalf().getLowerHalf()
+        );
+        steps.getBoundingBox().setPos(80, 80);
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
         debug.getBoundingBox().setPosTopCenter(dcArea);
 
@@ -75,6 +88,7 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(hours);
         bottomLayer.add(mins);
         bottomLayer.add(debug);
+        bottomLayer.add(steps);
 
         componentLayer.add(bottomLayer);
         componentLayer.add(hr);

@@ -4,9 +4,9 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
-class HeartRateComponent extends NumericComponent {
+class StepsComponent extends NumericComponent {
     (:debug)
-    public var name as Lang.String = "HeartRateComponent";
+    public var name as Lang.String = "StepsComponent";
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
@@ -16,6 +16,6 @@ class HeartRateComponent extends NumericComponent {
     }
 
     public function update() as Void {
-        self.setValue(GLOBAL_STATE.getLastHeartRate());
+        self.setValue(GLOBAL_STATE.getSteps());
     }
 }

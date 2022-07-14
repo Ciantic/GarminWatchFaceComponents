@@ -44,7 +44,7 @@ function strCountOccurrences(str as String, occur as String) as Lang.Number {
             break;
         }
         count += 1;
-        str = str.substring(occurIndex + 1, null);
+        str = str.substring(occurIndex + 1, str.length() - 1);
     }
     return count;
 }

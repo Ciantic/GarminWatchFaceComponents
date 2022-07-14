@@ -34,14 +34,14 @@ class HeartRateGraphComponent extends Component {
     public function update() as Void {
         if (
             self._drawState == DrawMissingSamples &&
-            GLOBAL_STATE.isUpdateEven()
+            GLOBAL_STATE.onceInUpdate()
         ) {
             self._invalid = true;
         } else if (self._drawState == InitialLayout) {
             self._invalid = true;
         } else if (
             self._drawState == DrawGraph &&
-            GLOBAL_STATE.afterLayoutInSecs(3)
+            GLOBAL_STATE.afterLayoutInSecs(1)
         ) {
             self._invalid = true;
         }
