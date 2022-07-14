@@ -79,6 +79,10 @@ class MyBoundingBox {
         self.set(self.x, self.y, width, height);
     }
 
+    public function setMoveXY(dx as Lang.Number, dy as Lang.Number) as Void {
+        self.setPos(self.x + dx, self.y + dy);
+    }
+
     public function setPosCenterRightJustify(
         boundingBox as MyBoundingBox
     ) as Void {

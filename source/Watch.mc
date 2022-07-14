@@ -80,6 +80,7 @@ class Watch extends WatchUi.WatchFace {
         steps.getBoundingBox().setPos(80, 80);
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
         debug.getBoundingBox().setPosTopCenter(dcArea);
+        debug.getBoundingBox().setMoveXY(0, 10);
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination

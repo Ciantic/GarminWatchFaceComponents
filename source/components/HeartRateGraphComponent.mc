@@ -41,7 +41,7 @@ class HeartRateGraphComponent extends Component {
             self._invalid = true;
         } else if (
             self._drawState == DrawGraph &&
-            GLOBAL_STATE.afterLayoutInSecs(1)
+            GLOBAL_STATE.afterLayoutInSecs(2)
         ) {
             self._invalid = true;
         }
@@ -147,7 +147,7 @@ class HeartRateGraphComponent extends Component {
 
     private function drawInitialLayout(dc as Dc) as Void {
         var box = self.getBoundingBox();
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_DK_GRAY);
+        dc.setColor(Graphics.COLOR_DK_RED, Graphics.COLOR_DK_RED);
         dc.setClip(0, box.height - 50, box.width, 50);
         dc.clear();
         dc.clearClip();

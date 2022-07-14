@@ -11,11 +11,11 @@ class DebugComponent extends TextComponent {
             :justify => (
                 Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
             ) as Graphics.TextJustification,
-            :text => "00:00:00 00.00 00.00\n00:00:00\n00:00:00\n00:00:00",
+            :text => "00:00:00 00.00 00.00",
             // :width => 30,
             // :height => 70,
             // :foreground => Graphics.COLOR_BLUE,
-            :background => Graphics.COLOR_YELLOW,
+            // :background => Graphics.COLOR_YELLOW,
         };
         TextComponent.initialize(params);
     }
@@ -23,14 +23,13 @@ class DebugComponent extends TextComponent {
     public function update() as Void {
         var failed = GLOBAL_STATE.getPowerBudgetExceededInfo();
         var t = GLOBAL_STATE.getLastUpdateTime();
-        var i = GLOBAL_STATE.getInitializeTime();
-        var l = GLOBAL_STATE.getLayoutTime();
-        var text =
-            formatClocktime(t) +
-            "\n" +
-            formatClocktime(i) +
-            "\n" +
-            formatClocktime(l);
+        // var i = GLOBAL_STATE.getInitializeTime();
+        // var l = GLOBAL_STATE.getLayoutTime();
+        var text = formatClocktime(t); // +
+        // "\n" +
+        // formatClocktime(i) +
+        // "\n" +
+        // formatClocktime(l);
         if (failed != null) {
             text +=
                 " " +
