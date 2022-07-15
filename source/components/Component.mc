@@ -50,6 +50,10 @@ class Component {
         return self._boundingBox;
     }
 
+    public function getId() as Lang.Number {
+        return self._id;
+    }
+
     protected function getBitmap() as BufferedBitmapReference {
         var bitmap = self._bitmap as BufferedBitmapReference;
         if (bitmap == null) {

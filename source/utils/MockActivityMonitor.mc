@@ -21,9 +21,8 @@ class MockActivityMonitorInfo {
     public var stepGoal as Lang.Number = 5120;
 
     function initialize(mockCount as Lang.Number) {
-        // self.steps =
-        // self.steps += mockCount;
-        self.calories += mockCount * 20;
+        self.steps += (mockCount * 0.25).toNumber();
+        self.calories += (mockCount * 0.25).toNumber() * 20;
     }
 }
 

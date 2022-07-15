@@ -61,12 +61,10 @@ class ComponentLayer extends Component {
     protected function draw(bdc as Dc) as Void {
         var areas = new MyBoundingBox(0, 0, 0, 0);
         var bitmaps = [] as Array<BufferedBitmapReference>;
-        var boxes = [] as Array<MyBoundingBox>;
         for (var i = 0; i < self._components.size(); i++) {
             var com = self._components[i];
             var invalidArea = com.getLastDrawArea();
             var invalid = com.isInvalid();
-            var box = com.getBoundingBox();
             var bitmap = com.render();
             var renderedArea = com.getLastDrawArea();
             if (invalid) {
@@ -74,7 +72,6 @@ class ComponentLayer extends Component {
                 areas.unionToSelf(renderedArea);
             }
             bitmaps.add(bitmap);
-            boxes.add(box);
         }
 
         // Restrict the area to the layer's bounding box
@@ -82,11 +79,14 @@ class ComponentLayer extends Component {
 
         // Draw the components intersecting with the area
         bdc.setClip(areas.x, areas.y, areas.width, areas.height);
-        for (var i = 0; i < bitmaps.size(); i++) {
+        for (var i = 0; i < self._components.size(); i++) {
+            var com = self._components[i];
             var bitmap = bitmaps[i];
-            var box = boxes[i];
+            var box = com.getBoundingBox();
+
             if (box.isIntersecting(areas)) {
                 bdc.drawBitmap(box.x, box.y, bitmap);
+                // log("Draw " + com.name + com.getId() + " on " + areas);
             }
         }
 
