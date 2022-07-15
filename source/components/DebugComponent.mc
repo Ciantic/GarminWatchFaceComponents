@@ -14,7 +14,7 @@ class DebugComponent extends TextComponent {
             :text => "00:00:00 00.00 00.00",
             // :width => 30,
             // :height => 70,
-            // :foreground => Graphics.COLOR_BLUE,
+            :foreground => Graphics.COLOR_YELLOW,
             // :background => Graphics.COLOR_YELLOW,
         };
         TextComponent.initialize(params);

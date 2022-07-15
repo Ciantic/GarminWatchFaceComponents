@@ -64,21 +64,6 @@ class HeartRateGraphComponent extends Component {
         );
     }
 
-    public function render() as BufferedBitmapReference {
-        var bitmap = self.getBitmap();
-        if (self.isInvalid()) {
-            var ref = bitmap.get() as BufferedBitmap?;
-            var bdc = ref != null ? ref.getDc() : null;
-            if (bdc == null) {
-                log("Unknown: Dc was not fetched");
-                return bitmap;
-            }
-            draw(bdc);
-            return bitmap;
-        }
-        return bitmap;
-    }
-
     public function getBitmap2() as BufferedBitmapReference {
         var bitmap = self._bitmap2 as BufferedBitmapReference;
         var box = self.getBoundingBox();

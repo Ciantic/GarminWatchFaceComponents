@@ -50,7 +50,7 @@ class Component {
         return self._boundingBox;
     }
 
-    public function getBitmap() as BufferedBitmapReference {
+    protected function getBitmap() as BufferedBitmapReference {
         var bitmap = self._bitmap as BufferedBitmapReference;
         if (bitmap == null) {
             bitmap = Graphics.createBufferedBitmap({

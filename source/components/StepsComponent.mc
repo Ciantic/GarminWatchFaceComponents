@@ -10,7 +10,7 @@ class StepsComponent extends NumericComponent {
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
-        params[:digits] = 3;
+        params[:digits] = 4;
         params[:format] = "%d";
         NumericComponent.initialize(params);
     }

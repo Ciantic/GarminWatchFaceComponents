@@ -77,11 +77,17 @@ class ComponentLayer extends Component {
             boxes.add(box);
         }
 
+        // Restrict the area to the layer's bounding box
+        areas.intersectToSelf(self.getBoundingBox());
+
+        // Draw the components intersecting with the area
         bdc.setClip(areas.x, areas.y, areas.width, areas.height);
         for (var i = 0; i < bitmaps.size(); i++) {
             var bitmap = bitmaps[i];
             var box = boxes[i];
-            bdc.drawBitmap(box.x, box.y, bitmap);
+            if (box.isIntersecting(areas)) {
+                bdc.drawBitmap(box.x, box.y, bitmap);
+            }
         }
 
         self._lastDrawArea = areas;
