@@ -70,7 +70,7 @@ class Watch extends WatchUi.WatchFace {
             // rate graphs, split it away (90% mark of screen area)
             dcArea.getLowerHalf().getSlicePerOfWidth(90)
         );
-        // var secDial = new DialSecondComponent(dcArea);
+        var secDial = new DialSecondComponent(dcArea);
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
         secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
