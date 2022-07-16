@@ -6,3 +6,6 @@ These are my custom components for watch face creation with Monkey C. Components
 
 -   Full sized second hand works, best execution time: 8549 with -O 2
     optimization.
+-   Storing and using BufferedBitmap is noticably faster than using
+    BufferedBitmapReference, around ~5 ms.
+-   Prefetching the DC of `BufferedBitmap` is not particularily faster.
