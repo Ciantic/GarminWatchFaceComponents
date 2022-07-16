@@ -1,6 +1,6 @@
 {
     "editor.formatOnSave": true,
     "prettier.tabWidth": 4,
-    "monkeyC.typeCheckLevel": "Strict",
-    "monkeyC.compilerOptions": "-O 2"
+    "monkeyC.typeCheckLevel": "Strict" //,
+    // "monkeyC.compilerOptions": "-O 2"
 }

@@ -144,7 +144,7 @@ class HeartRateGraphComponent extends Component {
             return;
         }
 
-        var elapsed = GLOBAL_STATE.getNow().subtract(lastWhen) as Time.Duration;
+        var elapsed = Time.now().subtract(lastWhen) as Time.Duration;
         var hrIterator = self.getHistory(elapsed);
         if (hrIterator == null) {
             self._invalid = false;

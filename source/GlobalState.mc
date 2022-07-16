@@ -22,7 +22,6 @@ module GLOBAL_STATE {
     var _fromLayout as Number = 0;
     var _isUpdate as Boolean = false;
     var _isPartialUpdate as Boolean = false;
-    var _now as Time.Moment = Time.now();
 
     function update() as Void {
         self._isUpdate = true;
@@ -30,7 +29,6 @@ module GLOBAL_STATE {
         self._time = System.getClockTime();
         self._lastUpdateTime = self._time;
         self._fromLayout += 1;
-        self._now = Time.now();
         self._updateActivity();
         if (self.onceInUpdate()) {
             self._updateActivityMonitorInfo();
@@ -40,17 +38,16 @@ module GLOBAL_STATE {
     function updatePartial() as Void {
         self._isUpdate = false;
         self._isPartialUpdate = true;
-        self._now = Time.now();
         self._time = System.getClockTime();
         // Update activity data every 5th second?
-        if (self._time.sec % 5 == 0) {
-            self._updateActivity();
-        }
+        // if (self._time.sec % 5 == 0) {
+        //     self._updateActivity();<
+        // }
     }
 
     // Getters
-    function getNow() as Time.Moment {
-        return self._now;
+    function isPartialUpdate() as Boolean {
+        return self._isPartialUpdate;
     }
     function getClockTime() as System.ClockTime {
         return self._time;
@@ -141,6 +138,12 @@ module GLOBAL_STATE {
 
     function onPowerBudgetExceeded(powerInfo as WatchFacePowerInfo) as Void {
         self._powerBudgetInfo = powerInfo;
+        log(
+            "Budget exceeded " +
+                powerInfo.executionTimeAverage +
+                " of " +
+                powerInfo.executionTimeLimit
+        );
     }
 
     function onEnterSleep() as Void {

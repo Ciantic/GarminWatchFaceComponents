@@ -100,12 +100,20 @@ class Watch extends WatchUi.WatchFace {
 
     public function onUpdate(dc as Dc) as Void {
         GLOBAL_STATE.update();
-        draw(dc, false);
+        var componentLayer = self._componentLayer;
+        if (componentLayer != null) {
+            componentLayer.update();
+            componentLayer.renderToView(dc, false);
+        }
     }
 
     public function onPartialUpdate(dc as Dc) as Void {
         GLOBAL_STATE.updatePartial();
-        draw(dc, true);
+        var componentLayer = self._componentLayer;
+        if (componentLayer != null) {
+            componentLayer.updatePartial();
+            componentLayer.renderToView(dc, true);
+        }
     }
 
     public function onShow() as Void {
@@ -122,14 +130,6 @@ class Watch extends WatchUi.WatchFace {
 
     public function onEnterSleep() as Void {
         GLOBAL_STATE.onEnterSleep();
-        // WatchUi.requestUpdate();
-    }
-
-    private function draw(dc as Dc, partial as Boolean) as Void {
-        var componentLayer = self._componentLayer;
-        if (componentLayer != null) {
-            componentLayer.update();
-            componentLayer.renderToView(dc, partial);
-        }
+        WatchUi.requestUpdate();
     }
 }

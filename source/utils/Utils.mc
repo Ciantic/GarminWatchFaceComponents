@@ -35,6 +35,17 @@ function formatClocktime(time as ClockTime) as String {
     );
 }
 
+function bitmapToStr(
+    bit as BufferedBitmap or BufferedBitmapReference
+) as String {
+    if (bit instanceof Graphics.BufferedBitmap) {
+        return "buf mem: " + (bit.isCached() ? "Yes" : "No");
+    } else if (bit instanceof Graphics.BufferedBitmapReference) {
+        return "ref";
+    }
+    return "?";
+}
+
 function strCountOccurrences(str as String, occur as String) as Lang.Number {
     var count = 0;
     var occurIndex;
