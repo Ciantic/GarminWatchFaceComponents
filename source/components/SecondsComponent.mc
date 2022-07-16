@@ -7,6 +7,7 @@ import Toybox.Time;
 class SecondsComponent extends NumericComponent {
     (:debug)
     public var name as Lang.String = "SecondsComponent";
+    public var partialUpdates as Lang.Boolean = true;
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
@@ -16,6 +17,9 @@ class SecondsComponent extends NumericComponent {
     }
 
     public function update() as Void {
+        self.updatePartial();
+    }
+    public function updatePartial() as Void {
         self.setValue(GLOBAL_STATE.getClockTime().sec);
     }
 }

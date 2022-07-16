@@ -40,9 +40,9 @@ module GLOBAL_STATE {
         self._isPartialUpdate = true;
         self._time = System.getClockTime();
         // Update activity data every 5th second?
-        // if (self._time.sec % 5 == 0) {
-        //     self._updateActivity();<
-        // }
+        if (self._time.sec % 5 == 0) {
+            self._updateActivity();
+        }
     }
 
     // Getters

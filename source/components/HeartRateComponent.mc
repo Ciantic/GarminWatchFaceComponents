@@ -7,6 +7,7 @@ import Toybox.Time;
 class HeartRateComponent extends NumericComponent {
     (:debug)
     public var name as Lang.String = "HeartRateComponent";
+    public var partialUpdates as Lang.Boolean = true;
 
     public function initialize(params as NumericSettings) {
         params[:value] = 0;
@@ -16,6 +17,9 @@ class HeartRateComponent extends NumericComponent {
     }
 
     public function update() as Void {
+        self.updatePartial();
+    }
+    public function updatePartial() as Void {
         self.setValue(GLOBAL_STATE.getLastHeartRate());
     }
 }

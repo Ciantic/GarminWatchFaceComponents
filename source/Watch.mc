@@ -92,9 +92,9 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(steps);
 
         componentLayer.add(bottomLayer);
-        // componentLayer.add(hr);
-        // componentLayer.add(secs);
-        componentLayer.add(secDial);
+        componentLayer.add(hr);
+        componentLayer.add(secs);
+        // componentLayer.add(secDial);
         self._componentLayer = componentLayer;
     }
 
