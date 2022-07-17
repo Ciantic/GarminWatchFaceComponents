@@ -2,6 +2,7 @@ import Toybox.Test;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
+import Toybox.WatchUi;
 
 function max(a as Lang.Number, b as Lang.Number) as Lang.Number {
     if (a > b) {
@@ -72,4 +73,8 @@ function test_StrCountOccurrences2(logger as Logger) as Boolean {
     var str = "I don't have any";
     var count = strCountOccurrences(str, "foo");
     return count == 0;
+}
+
+module MoreColors {
+    const COLOR_BROWN = 0xaa5500;
 }

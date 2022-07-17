@@ -56,7 +56,6 @@ class TextComponent extends Component {
         }
 
         // If height or width is not given, try to guestimate from font size and strlen
-        var fontHeight = Graphics.getFontHeight(font);
         var width = params.get(:width) as Lang.Number?;
         if (width == null) {
             width = getFontWidth(font) * strlen;
@@ -64,6 +63,7 @@ class TextComponent extends Component {
 
         var height = params.get(:height) as Lang.Number?;
         if (height == null) {
+            var fontHeight = Graphics.getFontHeight(font);
             var newLines = strCountOccurrences(text, "\n") + 1;
             height = fontHeight * newLines;
         }

@@ -39,20 +39,33 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                // :foreground => Graphics.COLOR_BLUE,
+                :foreground => Graphics.COLOR_DK_GRAY,
                 // :background => Graphics.COLOR_RED,
             },
         });
         var debug = new DebugComponent();
-
-        var hr = new HeartRateComponent({
+        var date = new DateComponent({
             :textSettings => {
                 :font => Graphics.FONT_SYSTEM_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                // :foreground => Graphics.COLOR_BLUE,
+                :foreground => MoreColors.COLOR_BROWN,
                 // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+
+        var hrIcon = iconHeart3(Graphics.COLOR_BLACK);
+
+        var hr = new HeartRateComponent({
+            :textSettings => {
+                :font => Graphics.FONT_SYSTEM_XTINY,
+                // :font => Graphics.FONT_SYSTEM_TINY,
+                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                // :width => 30,
+                // :height => 30,
+                :foreground => Graphics.COLOR_RED,
+                // :background => Graphics.COLOR_BLACK,
             },
         });
         var steps = new StepsComponent({
@@ -61,7 +74,7 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                // :foreground => Graphics.COLOR_BLUE,
+                :foreground => MoreColors.COLOR_BROWN,
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
@@ -71,16 +84,26 @@ class Watch extends WatchUi.WatchFace {
             dcArea.getLowerHalf().getSlicePerOfWidth(90)
         );
         var secDial = new DialSecondComponent(dcArea);
+
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
+        hours.getBoundingBox().setMoveXY(-4, 0);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        secs.getBoundingBox().setPosCenter(dcArea.getLowerHalf());
-        hr.getBoundingBox().setPosCenter(
-            dcArea.getLowerHalf().getLowerHalf().getLowerHalf()
+        mins.getBoundingBox().setMoveXY(4, 0);
+        secs.getBoundingBox().setPos(225, 140);
+        hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
+        hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
+        // hrIcon.getBoundingBox().setPosCenter(hr.getBoundingBox());
+        // hr.getBoundingBox().setMoveXY(0, -2);
+
+        date.getBoundingBox().setPosCenter(
+            dcArea.getUpperHalf().getUpperHalf().getUpperHalf()
         );
-        steps.getBoundingBox().setPos(80, 80);
+        date.getBoundingBox().setMoveXY(0, 15);
+        steps
+            .getBoundingBox()
+            .setPosCenter(dcArea.getUpperHalf().getUpperHalf().getUpperHalf());
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
-        debug.getBoundingBox().setPosTopCenter(dcArea);
-        debug.getBoundingBox().setMoveXY(0, 10);
+        debug.getBoundingBox().setPosCenter(dcArea);
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination
@@ -90,6 +113,8 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(mins);
         bottomLayer.add(debug);
         bottomLayer.add(steps);
+        bottomLayer.add(date);
+        bottomLayer.add(hrIcon);
 
         componentLayer.add(bottomLayer);
         componentLayer.add(hr);
