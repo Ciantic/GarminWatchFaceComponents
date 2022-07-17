@@ -4,6 +4,9 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
+const FONT_ROBOTO_BOLD =
+    WatchUi.loadResource($.Rez.Fonts.roboto_bold) as FontResource;
+
 class Watch extends WatchUi.WatchFace {
     private var _componentLayer as ComponentLayer?;
 
@@ -19,7 +22,7 @@ class Watch extends WatchUi.WatchFace {
         var bg = new ImageComponent(dcArea);
         var hours = new HoursComponent({
             :textSettings => {
-                :font => Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
+                :font => FONT_ROBOTO_BOLD,
                 :justify => Graphics.TEXT_JUSTIFY_RIGHT,
                 // :height => 90,
                 // :background => Graphics.COLOR_GREEN,
@@ -27,7 +30,7 @@ class Watch extends WatchUi.WatchFace {
         });
         var mins = new MinutesComponent({
             :textSettings => {
-                :font => Graphics.FONT_SYSTEM_NUMBER_THAI_HOT,
+                :font => FONT_ROBOTO_BOLD,
                 :justify => Graphics.TEXT_JUSTIFY_LEFT,
                 // :height => 90,
                 // :background => Graphics.COLOR_RED,
@@ -55,7 +58,10 @@ class Watch extends WatchUi.WatchFace {
             },
         });
 
-        var hrIcon = iconHeart3(Graphics.COLOR_BLACK);
+        var hrIcon = iconHeart3Outline(
+            Graphics.COLOR_BLACK,
+            Graphics.COLOR_RED
+        );
 
         var hr = new HeartRateComponent({
             :textSettings => {
@@ -86,10 +92,10 @@ class Watch extends WatchUi.WatchFace {
         var secDial = new DialSecondComponent(dcArea);
 
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
-        hours.getBoundingBox().setMoveXY(-4, 0);
+        hours.getBoundingBox().setMoveXY(-10, 0);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        mins.getBoundingBox().setMoveXY(4, 0);
-        secs.getBoundingBox().setPos(225, 140);
+        mins.getBoundingBox().setMoveXY(10, 0);
+        secs.getBoundingBox().setPos(234, 145);
         hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
         // hrIcon.getBoundingBox().setPosCenter(hr.getBoundingBox());

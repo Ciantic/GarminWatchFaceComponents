@@ -48,3 +48,26 @@ function iconHeart3(color as Graphics.ColorType) as TextComponent {
         // :background => Graphics.COLOR_BLUE,
     });
 }
+
+function iconHeart4(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 38,
+        :height => 35,
+        :text => "3",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconHeart3Outline(
+    color as Graphics.ColorType,
+    oColor as Graphics.ColorType
+) as ComponentLayer {
+    var layer = new ComponentLayer(new MyBoundingBox(0, 0, 38, 35));
+    var heart = iconHeart3(color);
+    var outline = iconHeart4(oColor);
+    layer.add(heart);
+    layer.add(outline);
+    return layer;
+}
