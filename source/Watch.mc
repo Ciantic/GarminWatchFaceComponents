@@ -4,8 +4,11 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
-const FONT_ROBOTO_BOLD =
-    WatchUi.loadResource($.Rez.Fonts.roboto_bold) as FontResource;
+// const FONT_ROBOTO_BOLD =
+//     WatchUi.loadResource($.Rez.Fonts.roboto_bold) as FontResource;
+
+const FONT_JETBRAINS_MONO =
+    WatchUi.loadResource($.Rez.Fonts.jetbrains_mono) as FontResource;
 
 class Watch extends WatchUi.WatchFace {
     private var _componentLayer as ComponentLayer?;
@@ -22,7 +25,7 @@ class Watch extends WatchUi.WatchFace {
         var bg = new ImageComponent(dcArea);
         var hours = new HoursComponent({
             :textSettings => {
-                :font => FONT_ROBOTO_BOLD,
+                :font => FONT_JETBRAINS_MONO,
                 :justify => Graphics.TEXT_JUSTIFY_RIGHT,
                 // :height => 90,
                 // :background => Graphics.COLOR_GREEN,
@@ -30,7 +33,7 @@ class Watch extends WatchUi.WatchFace {
         });
         var mins = new MinutesComponent({
             :textSettings => {
-                :font => FONT_ROBOTO_BOLD,
+                :font => FONT_JETBRAINS_MONO,
                 :justify => Graphics.TEXT_JUSTIFY_LEFT,
                 // :height => 90,
                 // :background => Graphics.COLOR_RED,
@@ -92,9 +95,9 @@ class Watch extends WatchUi.WatchFace {
         var secDial = new DialSecondComponent(dcArea);
 
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
-        hours.getBoundingBox().setMoveXY(-10, 0);
+        hours.getBoundingBox().setMoveXY(-5, 0);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        mins.getBoundingBox().setMoveXY(10, 0);
+        mins.getBoundingBox().setMoveXY(5, 0);
         secs.getBoundingBox().setPos(234, 145);
         hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
