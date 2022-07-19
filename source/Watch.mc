@@ -9,6 +9,8 @@ import Toybox.Time;
 
 const FONT_JETBRAINS_MONO =
     WatchUi.loadResource($.Rez.Fonts.jetbrains_mono) as FontResource;
+const FONT_JETBRAINS_MONO_24x14 =
+    WatchUi.loadResource($.Rez.Fonts.jetbrains_mono_24x14) as FontResource;
 
 class Watch extends WatchUi.WatchFace {
     private var _componentLayer as ComponentLayer?;
@@ -41,7 +43,7 @@ class Watch extends WatchUi.WatchFace {
         });
         var secs = new SecondsComponent({
             :textSettings => {
-                :font => Graphics.FONT_SYSTEM_XTINY,
+                :font => FONT_JETBRAINS_MONO_24x14,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
@@ -95,10 +97,10 @@ class Watch extends WatchUi.WatchFace {
         var secDial = new DialSecondComponent(dcArea);
 
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
-        hours.getBoundingBox().setMoveXY(-5, 0);
+        // hours.getBoundingBox().setMoveXY(-3, 0);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        mins.getBoundingBox().setMoveXY(5, 0);
-        secs.getBoundingBox().setPos(234, 145);
+        // mins.getBoundingBox().setMoveXY(3, 0);
+        secs.getBoundingBox().setPos(226, 142);
         hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
         // hrIcon.getBoundingBox().setPosCenter(hr.getBoundingBox());
