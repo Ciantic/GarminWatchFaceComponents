@@ -124,7 +124,8 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                :foreground => Graphics.COLOR_RED,
+                // :foreground => Graphics.COLOR_RED,
+                :foreground => Graphics.COLOR_LT_GRAY,
                 // :background => Graphics.COLOR_BLACK,
             },
         });
@@ -142,8 +143,8 @@ class Watch extends WatchUi.WatchFace {
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
 
         // FIRST ROW:
-        var rowHeight = 23;
-        var y = 9;
+        var rowHeight = 24;
+        var y = 5;
 
         steps.getBoundingBox().setPosTopCenter(dcArea);
         steps.getBoundingBox().setMoveXY(10, y);
