@@ -130,6 +130,13 @@ class MyBoundingBox {
         );
     }
 
+    public function setPosCenterLeft(boundingBox as MyBoundingBox) as Void {
+        self.setPos(
+            boundingBox.x - self.width,
+            boundingBox.y + boundingBox.height / 2 - self.height / 2
+        );
+    }
+
     public function isIntersecting(other as MyBoundingBox) as Boolean {
         // prettier-ignore
         return (

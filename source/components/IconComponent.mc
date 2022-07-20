@@ -135,6 +135,16 @@ function iconStairsDown(color as Graphics.ColorType) as TextComponent {
         // :background => Graphics.COLOR_BLUE,
     });
 }
+function iconCalendar(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => ";",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
 function iconHeart3Outline(
     color as Graphics.ColorType,
     oColor as Graphics.ColorType

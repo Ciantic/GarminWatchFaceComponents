@@ -53,10 +53,12 @@ class Watch extends WatchUi.WatchFace {
             },
         });
         var debug = new DebugComponent();
+
+        var dateIcon = iconCalendar(Graphics.COLOR_BLUE);
         var date = new DateComponent({
             :textSettings => {
                 :font => Graphics.FONT_XTINY,
-                :justify => Graphics.TEXT_JUSTIFY_CENTER,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
                 // :width => 30,
                 // :height => 30,
                 :foreground => 0xaaaaaa,
@@ -99,6 +101,18 @@ class Watch extends WatchUi.WatchFace {
             },
         });
 
+        var sunSetIcon = iconSunset(Graphics.COLOR_BLUE);
+        var sun = new SunComponent({
+            :textSettings => {
+                :font => Graphics.FONT_XTINY,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+                // :width => 30,
+                // :height => 30,
+                :foreground => 0xaaaaaa,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+
         var hrIcon = iconHeart3Outline(
             Graphics.COLOR_BLACK,
             Graphics.COLOR_RED
@@ -127,25 +141,46 @@ class Watch extends WatchUi.WatchFace {
         hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
 
-        steps.getBoundingBox().setPosTopCenter(dcArea);
-        steps.getBoundingBox().setMoveXY(10, 9);
-        stepsIcon.getBoundingBox().setPosCenter(steps.getBoundingBox());
-        stepsIcon.getBoundingBox().setMoveXY(-34, 5);
+        // FIRST ROW:
+        var rowHeight = 23;
+        var y = 9;
 
-        altitude.getBoundingBox().setPosTopCenter(dcArea);
-        altitude.getBoundingBox().setMoveXY(10, 29);
-        altitudeIcon.getBoundingBox().setPosCenter(altitude.getBoundingBox());
-        altitudeIcon.getBoundingBox().setMoveXY(-34, 5);
+        steps.getBoundingBox().setPosTopCenter(dcArea);
+        steps.getBoundingBox().setMoveXY(10, y);
+        stepsIcon.getBoundingBox().setPosCenterLeft(steps.getBoundingBox());
+        stepsIcon.getBoundingBox().setMoveXY(-3, 5);
+
+        // SECOND ROW
+        y += rowHeight;
 
         metersClimbed.getBoundingBox().setPosTopCenter(dcArea);
-        metersClimbed.getBoundingBox().setMoveXY(10, 49);
+        metersClimbed.getBoundingBox().setMoveXY(50, y);
         metersClimbedIcon
             .getBoundingBox()
-            .setPosCenter(metersClimbed.getBoundingBox());
-        metersClimbedIcon.getBoundingBox().setMoveXY(-34, 5);
+            .setPosCenterLeft(metersClimbed.getBoundingBox());
+        metersClimbedIcon.getBoundingBox().setMoveXY(-3, 5);
+
+        altitude.getBoundingBox().setPosTopCenter(dcArea);
+        altitude.getBoundingBox().setMoveXY(-13, y);
+        altitudeIcon
+            .getBoundingBox()
+            .setPosCenterLeft(altitude.getBoundingBox());
+        altitudeIcon.getBoundingBox().setMoveXY(-3, 5);
+
+        // THIRD ROW
+        y += rowHeight;
+
+        sun.getBoundingBox().setPosTopCenter(dcArea);
+        sun.getBoundingBox().setMoveXY(-35, y);
+        sunSetIcon.getBoundingBox().setPosCenterLeft(sun.getBoundingBox());
+        sunSetIcon.getBoundingBox().setMoveXY(-3, 5);
 
         date.getBoundingBox().setPosTopCenter(dcArea);
-        date.getBoundingBox().setMoveXY(0, 69);
+        date.getBoundingBox().setMoveXY(60, y);
+        dateIcon.getBoundingBox().setPosCenterLeft(date.getBoundingBox());
+        dateIcon.getBoundingBox().setMoveXY(-3, 5);
+
+        // Other stuff
 
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
         debug.getBoundingBox().setPosCenter(dcArea);
@@ -169,6 +204,10 @@ class Watch extends WatchUi.WatchFace {
         bottomLayer.add(metersClimbedIcon);
         bottomLayer.add(metersClimbed);
 
+        bottomLayer.add(sunSetIcon);
+        bottomLayer.add(sun);
+
+        bottomLayer.add(dateIcon);
         bottomLayer.add(date);
 
         componentLayer.add(bottomLayer);
