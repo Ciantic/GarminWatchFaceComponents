@@ -19,7 +19,7 @@ class DateComponent extends TextComponent {
         self._today = Time.today().value();
 
         var textSettings = params.get(:textSettings) as TextSettings;
-        textSettings[:strlen] = 10;
+        textSettings[:text] = "j.n. Wed";
         TextComponent.initialize(textSettings);
     }
 
@@ -34,7 +34,23 @@ class DateComponent extends TextComponent {
     protected function draw(dc as Dc) as Void {
         var dm = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
         var dow = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM).day_of_week;
-        self._text = "" + dm.day + "." + dm.month + "." + " " + dow;
+        self._text = "" + dm.day + "." + dm.month + ". " + dow;
         TextComponent.draw(dc);
+        // dc.setColor(self._foreground, self._background);
+        // dc.clear();
+        // var x = 0;
+        // if ((self._justify & Graphics.TEXT_JUSTIFY_LEFT) != 0) {
+        //     x = 0;
+        // } else if ((self._justify & Graphics.TEXT_JUSTIFY_CENTER) != 0) {
+        //     x = bb.width / 2;
+        // } else {
+        //     // TEXT_JUSTIFY_RIGHT
+        //     x = bb.width;
+        // }
+        // dc.drawText(0, 0, self._font, "" + dm.day + ".", self._justify);
+        // dc.drawText(0, 18, self._font, "" + dm.month, self._justify);
+        // dc.drawText(0, 36, self._font, "" + dm.day_of_week, self._justify);
+
+        // Component.draw(dc);
     }
 }

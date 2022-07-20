@@ -60,6 +60,81 @@ function iconHeart4(color as Graphics.ColorType) as TextComponent {
     });
 }
 
+function iconPaw(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "4",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconSteps(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "5",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconSunrise(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "6",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+function iconSunset(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "7",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconMountain(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "8",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconStairsUp(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => "9",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
+
+function iconStairsDown(color as Graphics.ColorType) as TextComponent {
+    return new IconComponent({
+        :font => ICON_FONT,
+        :width => 20,
+        :height => 38,
+        :text => ":",
+        :foreground => color,
+        // :background => Graphics.COLOR_BLUE,
+    });
+}
 function iconHeart3Outline(
     color as Graphics.ColorType,
     oColor as Graphics.ColorType

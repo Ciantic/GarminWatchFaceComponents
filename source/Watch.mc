@@ -47,18 +47,54 @@ class Watch extends WatchUi.WatchFace {
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                :foreground => Graphics.COLOR_DK_GRAY,
+                // :foreground => Graphics.COLOR_DK_GRAY,
+                :foreground => 0xaaaaaa,
                 // :background => Graphics.COLOR_RED,
             },
         });
         var debug = new DebugComponent();
         var date = new DateComponent({
             :textSettings => {
-                :font => Graphics.FONT_SYSTEM_XTINY,
+                :font => Graphics.FONT_XTINY,
                 :justify => Graphics.TEXT_JUSTIFY_CENTER,
                 // :width => 30,
                 // :height => 30,
-                :foreground => MoreColors.COLOR_BROWN,
+                :foreground => 0xaaaaaa,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+        var stepsIcon = iconSteps(Graphics.COLOR_BLUE);
+        var steps = new StepsComponent({
+            :textSettings => {
+                :font => Graphics.FONT_XTINY,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+                // :width => 30,
+                // :height => 30,
+                :foreground => 0xaaaaaa,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+
+        var altitudeIcon = iconMountain(Graphics.COLOR_BLUE);
+        var altitude = new AltitudeComponent({
+            :textSettings => {
+                :font => Graphics.FONT_XTINY,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+                // :width => 30,
+                // :height => 30,
+                :foreground => 0xaaaaaa,
+                // :background => Graphics.COLOR_YELLOW,
+            },
+        });
+
+        var metersClimbedIcon = iconStairsUp(Graphics.COLOR_BLUE);
+        var metersClimbed = new MetersClimbedComponent({
+            :textSettings => {
+                :font => Graphics.FONT_XTINY,
+                :justify => Graphics.TEXT_JUSTIFY_LEFT,
+                // :width => 30,
+                // :height => 30,
+                :foreground => 0xaaaaaa,
                 // :background => Graphics.COLOR_YELLOW,
             },
         });
@@ -67,7 +103,6 @@ class Watch extends WatchUi.WatchFace {
             Graphics.COLOR_BLACK,
             Graphics.COLOR_RED
         );
-
         var hr = new HeartRateComponent({
             :textSettings => {
                 :font => Graphics.FONT_SYSTEM_XTINY,
@@ -79,16 +114,6 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_BLACK,
             },
         });
-        var steps = new StepsComponent({
-            :textSettings => {
-                :font => Graphics.FONT_SYSTEM_XTINY,
-                :justify => Graphics.TEXT_JUSTIFY_CENTER,
-                // :width => 30,
-                // :height => 30,
-                :foreground => MoreColors.COLOR_BROWN,
-                // :background => Graphics.COLOR_YELLOW,
-            },
-        });
         var hrgraph = new HeartRateGraphComponent(
             // For round watches, the right most part is not useful for heart
             // rate graphs, split it away (90% mark of screen area)
@@ -97,22 +122,31 @@ class Watch extends WatchUi.WatchFace {
         var secDial = new DialSecondComponent(dcArea);
 
         hours.getBoundingBox().setPosCenterRightJustify(dcArea);
-        // hours.getBoundingBox().setMoveXY(-3, 0);
         mins.getBoundingBox().setPosCenterLeftJustify(dcArea);
-        // mins.getBoundingBox().setMoveXY(3, 0);
-        secs.getBoundingBox().setPos(226, 142);
+        secs.getBoundingBox().setPos(227, 120);
         hrIcon.getBoundingBox().setPosBottomCenter(dcArea);
         hr.getBoundingBox().setPosCenter(hrIcon.getBoundingBox());
-        // hrIcon.getBoundingBox().setPosCenter(hr.getBoundingBox());
-        // hr.getBoundingBox().setMoveXY(0, -2);
 
-        date.getBoundingBox().setPosCenter(
-            dcArea.getUpperHalf().getUpperHalf().getUpperHalf()
-        );
-        date.getBoundingBox().setMoveXY(0, 15);
-        steps
+        steps.getBoundingBox().setPosTopCenter(dcArea);
+        steps.getBoundingBox().setMoveXY(10, 9);
+        stepsIcon.getBoundingBox().setPosCenter(steps.getBoundingBox());
+        stepsIcon.getBoundingBox().setMoveXY(-34, 5);
+
+        altitude.getBoundingBox().setPosTopCenter(dcArea);
+        altitude.getBoundingBox().setMoveXY(10, 29);
+        altitudeIcon.getBoundingBox().setPosCenter(altitude.getBoundingBox());
+        altitudeIcon.getBoundingBox().setMoveXY(-34, 5);
+
+        metersClimbed.getBoundingBox().setPosTopCenter(dcArea);
+        metersClimbed.getBoundingBox().setMoveXY(10, 49);
+        metersClimbedIcon
             .getBoundingBox()
-            .setPosCenter(dcArea.getUpperHalf().getUpperHalf().getUpperHalf());
+            .setPosCenter(metersClimbed.getBoundingBox());
+        metersClimbedIcon.getBoundingBox().setMoveXY(-34, 5);
+
+        date.getBoundingBox().setPosTopCenter(dcArea);
+        date.getBoundingBox().setMoveXY(0, 69);
+
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
         debug.getBoundingBox().setPosCenter(dcArea);
 
@@ -120,12 +154,22 @@ class Watch extends WatchUi.WatchFace {
         // bit in a bitmap combination
         bottomLayer.add(bg);
         bottomLayer.add(hrgraph);
+        bottomLayer.add(hrIcon);
+
         bottomLayer.add(hours);
         bottomLayer.add(mins);
         bottomLayer.add(debug);
+
+        bottomLayer.add(stepsIcon);
         bottomLayer.add(steps);
+
+        bottomLayer.add(altitudeIcon);
+        bottomLayer.add(altitude);
+
+        bottomLayer.add(metersClimbedIcon);
+        bottomLayer.add(metersClimbed);
+
         bottomLayer.add(date);
-        bottomLayer.add(hrIcon);
 
         componentLayer.add(bottomLayer);
         componentLayer.add(hr);

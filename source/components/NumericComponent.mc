@@ -8,6 +8,7 @@ typedef NumericSettings as {
         :value as Lang.Number?,
         :digits as Lang.Number?,
         :format as Lang.String?,
+        :suffix as Lang.String?,
         :textSettings as TextSettings,
     };
 
@@ -16,6 +17,7 @@ class NumericComponent extends TextComponent {
     public var name as Lang.String = "NumericComponent";
     private var _format as Lang.String = "%d";
     private var _value as Lang.Number = 0;
+    private var _suffix as Lang.String = "";
 
     public function initialize(params as NumericSettings) {
         var value = params.get(:value) as Lang.Number?;
@@ -27,6 +29,11 @@ class NumericComponent extends TextComponent {
         var format = params.get(:format) as Lang.String?;
         if (format != null) {
             self._format = format;
+        }
+
+        var suffix = params.get(:suffix) as Lang.String?;
+        if (suffix != null) {
+            self._suffix = suffix;
         }
 
         var digits = params.get(:digits) as Lang.Number?;
@@ -47,7 +54,7 @@ class NumericComponent extends TextComponent {
     }
 
     protected function draw(dc as Dc) as Void {
-        self._text = self._value.format(self._format);
+        self._text = self._value.format(self._format) + self._suffix;
         TextComponent.draw(dc);
     }
 }

@@ -76,9 +76,64 @@ module GLOBAL_STATE {
     function getSteps() as Lang.Number {
         var activity = self._activityMonitorInfo;
         if (activity != null) {
-            var steps = activity.steps;
-            if (steps != null) {
-                return steps;
+            var val = activity.steps;
+            if (val != null) {
+                return val;
+            }
+        }
+        return 0;
+    }
+
+    function getAltitude() as Lang.Number {
+        var activity = self._activity;
+        if (activity != null) {
+            var val = activity.altitude;
+            if (val != null) {
+                return val.toNumber();
+            }
+        }
+        return 0;
+    }
+
+    function getFloorsClimbed() as Lang.Number {
+        var activity = self._activityMonitorInfo;
+        if (activity != null) {
+            var val = activity.floorsClimbed;
+            if (val != null) {
+                return val;
+            }
+        }
+        return 0;
+    }
+
+    function getFloorsDescended() as Lang.Number {
+        var activity = self._activityMonitorInfo;
+        if (activity != null) {
+            var val = activity.floorsDescended;
+            if (val != null) {
+                return val;
+            }
+        }
+        return 0;
+    }
+
+    function getMetersClimbed() as Lang.Number {
+        var activity = self._activityMonitorInfo;
+        if (activity != null) {
+            var val = activity.metersClimbed;
+            if (val != null) {
+                return val.toNumber();
+            }
+        }
+        return 0;
+    }
+
+    function getMetersDescended() as Lang.Number {
+        var activity = self._activityMonitorInfo;
+        if (activity != null) {
+            var val = activity.metersDescended;
+            if (val != null) {
+                return val.toNumber();
             }
         }
         return 0;
