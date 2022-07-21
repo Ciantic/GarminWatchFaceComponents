@@ -145,11 +145,13 @@ class Watch extends WatchUi.WatchFace {
         // FIRST ROW:
         var rowHeight = 24;
         var y = 5;
+        var iconX = -3;
+        var iconY = 4;
 
         steps.getBoundingBox().setPosTopCenter(dcArea);
         steps.getBoundingBox().setMoveXY(10, y);
         stepsIcon.getBoundingBox().setPosCenterLeft(steps.getBoundingBox());
-        stepsIcon.getBoundingBox().setMoveXY(-3, 5);
+        stepsIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         // SECOND ROW
         y += rowHeight;
@@ -159,14 +161,14 @@ class Watch extends WatchUi.WatchFace {
         metersClimbedIcon
             .getBoundingBox()
             .setPosCenterLeft(metersClimbed.getBoundingBox());
-        metersClimbedIcon.getBoundingBox().setMoveXY(-3, 5);
+        metersClimbedIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         altitude.getBoundingBox().setPosTopCenter(dcArea);
         altitude.getBoundingBox().setMoveXY(-13, y);
         altitudeIcon
             .getBoundingBox()
             .setPosCenterLeft(altitude.getBoundingBox());
-        altitudeIcon.getBoundingBox().setMoveXY(-3, 5);
+        altitudeIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         // THIRD ROW
         y += rowHeight;
@@ -174,12 +176,12 @@ class Watch extends WatchUi.WatchFace {
         sun.getBoundingBox().setPosTopCenter(dcArea);
         sun.getBoundingBox().setMoveXY(-35, y);
         sunSetIcon.getBoundingBox().setPosCenterLeft(sun.getBoundingBox());
-        sunSetIcon.getBoundingBox().setMoveXY(-3, 5);
+        sunSetIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         date.getBoundingBox().setPosTopCenter(dcArea);
         date.getBoundingBox().setMoveXY(60, y);
         dateIcon.getBoundingBox().setPosCenterLeft(date.getBoundingBox());
-        dateIcon.getBoundingBox().setMoveXY(-3, 5);
+        dateIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         // Other stuff
 
