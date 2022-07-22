@@ -3,6 +3,8 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
 import Toybox.WatchUi;
+import Toybox.Time;
+import Toybox.Time.Gregorian;
 
 function max(a as Lang.Number, b as Lang.Number) as Lang.Number {
     if (a > b) {
@@ -23,6 +25,24 @@ function min(a as Lang.Number, b as Lang.Number) as Lang.Number {
 function getFontWidth(font as Graphics.FontType) as Lang.Number {
     // 0.7 is guestimate, because there is no native getFontWidth
     return (Graphics.getFontAscent(font) * 0.7).toNumber();
+}
+
+function formatMoment(moment as Time.Moment) as String {
+    var info = Gregorian.info(moment, Time.FORMAT_SHORT);
+    return (
+        info.day +
+        "." +
+        info.month +
+        "." +
+        info.year +
+        " " +
+        "" +
+        info.hour +
+        ":" +
+        info.min.format("%02d") +
+        ":" +
+        info.sec.format("%02d")
+    );
 }
 
 function formatClocktime(time as ClockTime) as String {

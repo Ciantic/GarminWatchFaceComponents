@@ -2,6 +2,7 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Lang;
 import Toybox.Activity;
+import Toybox.Position;
 import Toybox.ActivityMonitor;
 import Toybox.Time;
 import Toybox.Math;
@@ -71,6 +72,13 @@ module GLOBAL_STATE {
             }
         }
         return 0;
+    }
+    function getLocation() as Position.Location? {
+        var activity = self._activity;
+        if (activity != null) {
+            return activity.currentLocation;
+        }
+        return null;
     }
 
     function getSteps() as Lang.Number {
