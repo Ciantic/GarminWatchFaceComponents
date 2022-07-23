@@ -6,6 +6,7 @@ import Toybox.Position;
 import Toybox.ActivityMonitor;
 import Toybox.Time;
 import Toybox.Math;
+import Toybox.Weather;
 
 // VSCode's go to defintion/find references between files works with modules but
 // not with classes, thus I chose module for the global state.
@@ -79,10 +80,32 @@ module GLOBAL_STATE {
         return 0;
     }
     function getLocation() as Position.Location? {
+        // Does not work on watch faces?
+        // var pinfo = Position.getInfo();
+        // if (pinfo != null) {
+        //     var position = pinfo.position;
+        //     if (position != null) {
+        //         return position;
+        //     }
+        // }
+        // return null;
+
         var activity = self._activity;
         if (activity != null) {
-            return activity.currentLocation;
+            var pos = activity.currentLocation;
+            if (pos != null) {
+                return pos;
+            }
         }
+
+        var cond = Weather.getCurrentConditions();
+        if (cond != null) {
+            var pos = cond.observationLocationPosition;
+            if (pos != null) {
+                return pos;
+            }
+        }
+
         return null;
     }
 

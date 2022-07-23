@@ -31,6 +31,12 @@ class DebugComponent extends TextComponent {
         // formatClocktime(i) +
         // "\n" +
         // formatClocktime(l);
+        var pos = GLOBAL_STATE.getLocation();
+        if (pos != null) {
+            self.setText("loc:" + pos.toGeoString(Position.GEO_DMS));
+        } else {
+            self.setText("no loc");
+        }
         if (failed != null) {
             var text =
                 // " " +

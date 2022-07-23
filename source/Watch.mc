@@ -52,7 +52,6 @@ class Watch extends WatchUi.WatchFace {
                 // :background => Graphics.COLOR_RED,
             },
         });
-        var debug = new DebugComponent();
 
         var dateIcon = iconCalendar(Graphics.COLOR_BLUE);
         var date = new DateComponent({
@@ -164,7 +163,7 @@ class Watch extends WatchUi.WatchFace {
         metersClimbedIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         altitude.getBoundingBox().setPosTopCenter(dcArea);
-        altitude.getBoundingBox().setMoveXY(-13, y);
+        altitude.getBoundingBox().setMoveXY(-18, y);
         altitudeIcon
             .getBoundingBox()
             .setPosCenterLeft(altitude.getBoundingBox());
@@ -173,20 +172,19 @@ class Watch extends WatchUi.WatchFace {
         // THIRD ROW
         y += rowHeight;
 
-        sun.getBoundingBox().setPosTopCenter(dcArea);
-        sun.getBoundingBox().setMoveXY(-35, y);
-        sunSetIcon.getBoundingBox().setPosCenterLeft(sun.getBoundingBox());
-        sunSetIcon.getBoundingBox().setMoveXY(iconX, iconY);
-
         date.getBoundingBox().setPosTopCenter(dcArea);
-        date.getBoundingBox().setMoveXY(60, y);
+        date.getBoundingBox().setMoveXY(-20, y);
         dateIcon.getBoundingBox().setPosCenterLeft(date.getBoundingBox());
         dateIcon.getBoundingBox().setMoveXY(iconX, iconY);
+
+        sun.getBoundingBox().setPosTopCenter(dcArea);
+        sun.getBoundingBox().setMoveXY(65, y);
+        sunSetIcon.getBoundingBox().setPosCenterLeft(sun.getBoundingBox());
+        sunSetIcon.getBoundingBox().setMoveXY(iconX, iconY);
 
         // Other stuff
 
         hrgraph.getBoundingBox().setPosBottomLeft(dcArea);
-        debug.getBoundingBox().setPosCenter(dcArea);
 
         // Rarely changing can be combined to one layer, this saves just tiny
         // bit in a bitmap combination
@@ -196,7 +194,10 @@ class Watch extends WatchUi.WatchFace {
 
         bottomLayer.add(hours);
         bottomLayer.add(mins);
-        bottomLayer.add(debug);
+
+        // var debug = new DebugComponent();
+        // debug.getBoundingBox().setPosCenter(dcArea);
+        // bottomLayer.add(debug);
 
         bottomLayer.add(stepsIcon);
         bottomLayer.add(steps);

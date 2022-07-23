@@ -6,6 +6,7 @@ import Toybox.Time;
 import Toybox.Time.Gregorian;
 import Toybox.Test;
 import Toybox.Math;
+import Toybox.Position;
 
 typedef SunComponentSettings as {
         :format as Lang.String?,
@@ -16,10 +17,11 @@ class SunComponent extends TextComponent {
     (:debug)
     public var name as Lang.String = "SunComponent";
     private var _nextSunEvent as Time.Moment?;
+    private var _location as Position.Location?;
 
     public function initialize(params as SunComponentSettings) {
         var textSettings = params.get(:textSettings) as TextSettings;
-        textSettings[:text] = "0000";
+        textSettings[:text] = "00:00";
         TextComponent.initialize(textSettings);
     }
 
@@ -41,10 +43,11 @@ class SunComponent extends TextComponent {
                 var latlon = loc.toDegrees();
                 var sun = SunCalc.nextSunEvent(now, latlon[0], latlon[1]);
                 if (sun != null) {
-                    log("Next sun event: " + formatMoment(sun));
+                    // log("Next sun event: " + formatMoment(sun));
                     self._nextSunEvent = sun;
                 }
                 self._invalid = true;
+                self._location = loc;
             }
         }
     }
@@ -55,7 +58,11 @@ class SunComponent extends TextComponent {
             var info = Gregorian.info(sunEvent, Time.FORMAT_SHORT);
             self._text = info.hour + ":" + info.min.format("%02d");
         } else {
-            self._text = "--:--";
+            if (self._location == null) {
+                self._text = "no:lo";
+            } else {
+                self._text = "--:--";
+            }
         }
         TextComponent.draw(dc);
     }
