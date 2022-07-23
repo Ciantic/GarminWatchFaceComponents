@@ -15,70 +15,48 @@ typedef SunComponentSettings as {
 class SunComponent extends TextComponent {
     (:debug)
     public var name as Lang.String = "SunComponent";
-    private var _location as Lang.Array<Lang.Double>?;
-    private var _today as Lang.Number;
-    private var _sunrise as Time.Moment?;
-    private var _sunset as Time.Moment?;
     private var _nextSunEvent as Time.Moment?;
 
     public function initialize(params as SunComponentSettings) {
-        self._today = Time.today().value();
-
         var textSettings = params.get(:textSettings) as TextSettings;
         textSettings[:text] = "0000";
         TextComponent.initialize(textSettings);
     }
 
     public function update() as Void {
-        var newToday = Time.today().value();
-        var changed = newToday != self._today;
-
-        var oldlatlon = self._location;
-        var newlatlon = GLOBAL_STATE.getLocation();
-        if (newlatlon != null) {
-            var latlon = newlatlon.toDegrees();
-            var lat = latlon[0];
-            var lon = latlon[1];
-
-            // If coordinates changed, update
-            if (
-                oldlatlon != null &&
-                (oldlatlon[0] != lat || oldlatlon[1] != lon)
-            ) {
-                oldlatlon[0] = lat;
-                oldlatlon[1] = lon;
-                changed = true;
-            } else if (oldlatlon == null) {
-                self._location = latlon;
-                changed = true;
+        // Check if the next sun event has elapsed, then refetch
+        var now = GLOBAL_STATE.now();
+        var nextSunEvent = self._nextSunEvent;
+        if (nextSunEvent != null) {
+            if (now.greaterThan(nextSunEvent)) {
+                self._nextSunEvent = null;
+                self._invalid = true;
             }
-        } else if (oldlatlon != null) {
-            self._location = null;
-            changed = true;
         }
 
-        if (changed) {
-            self._today = newToday;
-            self._invalid = true;
-            var loc = self._location;
-            var now = Time.now();
+        // Try to get the next sun event
+        if (self._nextSunEvent == null) {
+            var loc = GLOBAL_STATE.getLocation();
             if (loc != null) {
-                var suntimes = SunCalc.sunriseEquation(
-                    newToday,
-                    loc[0],
-                    loc[1]
-                );
-                if (now.lessThan(suntimes.sunrise)) {
-                    //...
+                var latlon = loc.toDegrees();
+                var sun = SunCalc.nextSunEvent(now, latlon[0], latlon[1]);
+                if (sun != null) {
+                    log("Next sun event: " + formatMoment(sun));
+                    self._nextSunEvent = sun;
                 }
+                self._invalid = true;
             }
         }
     }
 
     protected function draw(dc as Dc) as Void {
-        var dm = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
-        var dow = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM).day_of_week;
-        self._text = "15:30";
+        var sunEvent = self._nextSunEvent;
+        if (sunEvent != null) {
+            var info = Gregorian.info(sunEvent, Time.FORMAT_SHORT);
+            self._text = info.hour + ":" + info.min.format("%02d");
+        } else {
+            self._text = "--:--";
+        }
         TextComponent.draw(dc);
     }
 }
@@ -241,6 +219,26 @@ module SunCalc {
         }
     }
 
+    function nextSunEvent(
+        moment as Time.Moment,
+        latitude as Lang.Double,
+        longitude as Lang.Double
+    ) as Time.Moment? {
+        // Start iterating from a day before
+        var day = new Time.Duration(86400);
+        var sunmoment = moment.subtract(day) as Time.Moment;
+        for (var i = 0; i <= 10; i++) {
+            var sun = sunriseEquation(sunmoment, latitude, longitude);
+            if (sun.sunrise.greaterThan(moment)) {
+                return sun.sunrise;
+            } else if (sun.sunset.greaterThan(moment)) {
+                return sun.sunset;
+            }
+            sunmoment = sunmoment.add(day);
+        }
+        return null;
+    }
+
     function sunriseEquation(
         moment as Time.Moment,
         latitude as Lang.Double,
@@ -292,7 +290,7 @@ module SunCalc {
         var noon = Gregorian.utcInfo(val.noon, Time.FORMAT_SHORT);
         // logger.debug(formatMoment(val.sunrise));
         // logger.debug(formatMoment(val.sunset));
-        // logger.debug(formatMoment(val.noon));
+        logger.debug(formatMoment(val.noon));
         return (
             // Sunrise is 4:12 in Jyväskylä time (UTC+3)
             sunrise.hour == 1 &&

@@ -23,8 +23,10 @@ module GLOBAL_STATE {
     var _fromLayout as Number = 0;
     var _isUpdate as Boolean = false;
     var _isPartialUpdate as Boolean = false;
+    var _now as Time.Moment = Time.now();
 
     function update() as Void {
+        self._now = Time.now();
         self._isUpdate = true;
         self._isPartialUpdate = false;
         self._time = System.getClockTime();
@@ -47,6 +49,9 @@ module GLOBAL_STATE {
     }
 
     // Getters
+    function now() as Time.Moment {
+        return self._now;
+    }
     function isPartialUpdate() as Boolean {
         return self._isPartialUpdate;
     }
