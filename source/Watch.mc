@@ -4,9 +4,6 @@ import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 
-// const FONT_ROBOTO_BOLD =
-//     WatchUi.loadResource($.Rez.Fonts.roboto_bold) as FontResource;
-
 const FONT_JETBRAINS_MONO =
     WatchUi.loadResource($.Rez.Fonts.jetbrains_mono) as FontResource;
 const FONT_JETBRAINS_MONO_24x14 =
