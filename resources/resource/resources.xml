@@ -1,0 +1,8 @@
+<resources>
+    <fonts>
+        <font id="icons" filename="fonts/icons.fnt" filter="0123456789:;" antialias="true" />
+        <font id="jetbrains_mono" filename="fonts/jetbrains-mono-85x51.fnt" filter="0123456789:." antialias="true" />
+        <font id="jetbrains_mono_24x14" filename="fonts/jetbrains-mono-24x14.fnt" filter="0123456789:." antialias="true" />
+
+    </fonts>
+</resources>
